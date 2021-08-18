@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.sql.DataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 public class Conexion {
 
@@ -12,9 +14,23 @@ public class Conexion {
     private static final String JDBC_USER = "brayan";
     private static final String JDBC_PASSWORD = "contra123";
 
-    public static Connection getConexion() throws SQLException {
-        Connection conexion = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
-        return conexion;
+    private static BasicDataSource dataSource;
+
+    public static DataSource getDataSource() {
+        if (dataSource == null) {
+
+            dataSource = new BasicDataSource();
+            dataSource.setUrl(JDBC_URL);
+            dataSource.setUsername(JDBC_USER);
+            dataSource.setPassword(JDBC_PASSWORD);
+            dataSource.setInitialSize(50);
+        }
+
+        return dataSource;
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return getDataSource().getConnection();
     }
 
     public static void close(ResultSet rs) {

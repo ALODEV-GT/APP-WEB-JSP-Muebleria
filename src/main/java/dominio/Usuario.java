@@ -4,15 +4,15 @@ public class Usuario {
 
     private String nombre; //Llave primaria
     private String password;
-    private int idArea;
+    private String area;
 
     public Usuario() {
     }
 
-    public Usuario(String nombre, String password, int idArea) {
+    public Usuario(String nombre, String password, String area) {
         this.nombre = nombre;
         this.password = password;
-        this.idArea = idArea;
+        this.area = area;
     }
 
     public Usuario(String nombre) {
@@ -27,8 +27,8 @@ public class Usuario {
         return password;
     }
 
-    public int getIdArea() {
-        return idArea;
+    public String getArea() {
+        return area;
     }
 
     public void setNombre(String nombre) {
@@ -39,8 +39,8 @@ public class Usuario {
         this.password = password;
     }
 
-    public void setIdArea(int idArea) {
-        this.idArea = idArea;
+    public void setArea(String area) {
+        this.area = area;
     }
 
 }
