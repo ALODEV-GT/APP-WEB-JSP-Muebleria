@@ -1,7 +1,7 @@
 package web;
 
 import datos.UsuarioDao;
-import dominio.Usuario;
+import dominio.clases.Usuario;
 import java.io.File;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -56,13 +56,13 @@ public class ServletControl extends HttpServlet {
             area = usuario.getArea();
 
             switch (area) {
-                case "Administracion":
+                case "Financiero":
                     request.getRequestDispatcher("/WEB-INF/paginas/administracion/administracion.jsp").forward(request, response);
                     break;
                 case "Fabrica":
                     request.getRequestDispatcher("/WEB-INF/paginas/fabrica/fabrica.jsp").forward(request, response);
                     break;
-                case "Venta":
+                case "Punto de venta":
                     request.getRequestDispatcher("/WEB-INF/paginas/venta/ventas.jsp").forward(request, response);
                     break;
             }

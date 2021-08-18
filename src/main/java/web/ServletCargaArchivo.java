@@ -1,9 +1,8 @@
 package web;
 
+import dominio.cargarDatos.CargarDatos;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -24,15 +23,20 @@ public class ServletCargaArchivo extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         //Recibe el archivo
         Part filePart = request.getPart("archivoCargaDatos");
+
+        //Almacenamiento del archivo
         String nombreArchivo = filePart.getSubmittedFileName();
+        String path = this.getServletConfig().getServletContext().getRealPath("/archivo");
+        File directorio = new File(path);
+        if (!directorio.exists()) {
+            directorio.mkdir();
+        }
+        filePart.write(path + "/" + nombreArchivo);
 
-            String path = this.getServletConfig().getServletContext().getRealPath("/archivo");
-            File directorio = new File(path);
-            if (!directorio.exists()) {
-                directorio.mkdir();
-            }
+        //Procesamiento del archivo
+        File archivo = new File(path + "/" + nombreArchivo);
+        CargarDatos cargarDatos = new CargarDatos(archivo);
 
-            filePart.write(path + "/" + nombreArchivo);
-            response.getWriter().print("Archivo subido correctamente");
+        response.getWriter().print("<html><head></head><body><h1>Archivo subido correctamente</h1></body><html>");
     }
 }

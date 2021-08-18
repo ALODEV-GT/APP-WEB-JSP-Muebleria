@@ -2,7 +2,7 @@ package test;
 
 import datos.Conexion;
 import datos.UsuarioDao;
-import dominio.Usuario;
+import dominio.clases.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

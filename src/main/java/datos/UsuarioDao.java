@@ -1,6 +1,6 @@
 package datos;
 
-import dominio.Usuario;
+import dominio.clases.Usuario;
 import java.sql.*;
 
 public class UsuarioDao {
