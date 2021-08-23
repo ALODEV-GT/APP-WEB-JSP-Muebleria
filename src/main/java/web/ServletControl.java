@@ -1,9 +1,12 @@
 package web;
 
 import datos.UsuarioDao;
+import dominio.cargarDatos.MisExcepciones;
 import dominio.clases.Usuario;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,7 +51,11 @@ public class ServletControl extends HttpServlet {
         Usuario usuario = new Usuario(nombreUsuario);
 
         //Buscamos si sus datos coinciden
-        usuario = new UsuarioDao().encontrar(usuario);
+        try {
+            usuario = new UsuarioDao().encontrar(usuario);
+        } catch (MisExcepciones ex) {
+            Logger.getLogger(ServletControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         String mensaje = " ";
 

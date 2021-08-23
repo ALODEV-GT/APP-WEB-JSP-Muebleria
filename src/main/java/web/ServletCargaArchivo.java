@@ -36,6 +36,7 @@ public class ServletCargaArchivo extends HttpServlet {
         //Procesamiento del archivo
         File archivo = new File(path + "/" + nombreArchivo);
         CargarDatos cargarDatos = new CargarDatos(archivo);
+        
 
         response.getWriter().print("<html><head></head><body><h1>Archivo subido correctamente</h1></body><html>");
     }

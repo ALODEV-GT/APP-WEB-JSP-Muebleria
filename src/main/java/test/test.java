@@ -1,45 +1,30 @@
 package test;
 
-import datos.Conexion;
-import datos.UsuarioDao;
-import dominio.clases.Usuario;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class test {
 
 //    public static void main(String[] args) {
+//        System.out.println(formatearFecha("12/09/2021"));
+//        
+//        LocalDate fecha = LocalDate.of(2021, 9, 27);
+//        System.out.println(formaterFechaRecibida(fecha));
 //
-//        //        try {
-////            Connection conn = Conexion.getConexion();
-////            String sql = "SELECT u.passw, a.nombre FROM usuario u JOIN area a ON(u.id_area = a.id_area) WHERE u.nombre_usuario=?";
-////            PreparedStatement stmt = conn.prepareStatement(sql);
-////            stmt.setString(1, "BQUIALO");
-////            
-////            ResultSet rs = stmt.executeQuery();
-////            while (rs.next()) {                
-////                String passw = rs.getString("u.passw");
-////                String area = rs.getString("a.nombre");
-////                System.out.println("Password: " + passw);
-////                System.out.println("Area: " + area);
-////            }
-////            
-////        } catch (SQLException ex) {
-////            ex.printStackTrace(System.out);
-////        }
+//    }
 //
-//
-//
-//    Usuario usuario = new Usuario("BQUIALO");
-//    usuario = new UsuarioDao().encontrar(usuario);
-//        System.out.println(usuario.getNombre());
-//        System.out.println(usuario.getPassword());
-//        System.out.println(usuario.getArea());
+//    public static String formatearFecha(String fechaString) throws DateTimeException {
+//        DateTimeFormatter formatoARecibir = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//        DateTimeFormatter formatoADevolver = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        LocalDate fecha = LocalDate.parse(fechaString, formatoARecibir);
+//        String fechaFormateada = fecha.format(formatoADevolver);
+//        return fechaFormateada;
+//    }
 //    
-//
+//    public static String formaterFechaRecibida(LocalDate fecha){
+//        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//        String fechaFormateada = fecha.format(formato);
+//        return fechaFormateada;
 //    }
 }

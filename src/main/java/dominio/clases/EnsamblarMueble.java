@@ -1,19 +1,26 @@
 package dominio.clases;
 
-import java.sql.Date;
-
 public class EnsamblarMueble {
 
     private int idEnsamble;
-    private String tipoMueble;
+    private String fechaEnsambre;
     private String ensamblador;
-    private Date fechaEnsambre;
+    private String tipoMueble;
     private double costo;
+    private int vendido;
+
+    public int getVendido() {
+        return vendido;
+    }
+
+    public void setVendido(int vendido) {
+        this.vendido = vendido;
+    }
 
     public EnsamblarMueble() {
     }
 
-    public EnsamblarMueble(String tipoMueble, String ensamblador, Date fechaEnsambre, double costo) {
+    public EnsamblarMueble(String tipoMueble, String ensamblador, String fechaEnsambre, double costo) {
         this.tipoMueble = tipoMueble;
         this.ensamblador = ensamblador;
         this.fechaEnsambre = fechaEnsambre;
@@ -24,7 +31,7 @@ public class EnsamblarMueble {
         this.idEnsamble = idEnsamble;
     }
 
-    public EnsamblarMueble(Date fechaEnsambre) {
+    public EnsamblarMueble(String fechaEnsambre) {
         this.fechaEnsambre = fechaEnsambre;
     }
 
@@ -44,11 +51,11 @@ public class EnsamblarMueble {
         this.ensamblador = ensamblador;
     }
 
-    public Date getFechaEnsambre() {
+    public String getFechaEnsambre() {
         return fechaEnsambre;
     }
 
-    public void setFechaEnsambre(Date fechaEnsambre) {
+    public void setFechaEnsambre(String fechaEnsambre) {
         this.fechaEnsambre = fechaEnsambre;
     }
 

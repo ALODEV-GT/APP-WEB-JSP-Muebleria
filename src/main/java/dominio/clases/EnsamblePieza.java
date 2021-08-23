@@ -3,8 +3,8 @@ package dominio.clases;
 public class EnsamblePieza {
 
     private int numRequisito; //Llave primaria
-    private String tipoMueble; //Llave primaria
-    private String pieza;
+    private String tipoMueble;
+    private int idTipoPieza;
     private int cantidadPieza;
 
     public EnsamblePieza() {
@@ -14,16 +14,16 @@ public class EnsamblePieza {
         this.tipoMueble = tipoMueble;
     }
 
-    public EnsamblePieza(int numRequisito, String tipoMueble, String pieza, int cantidadPieza) {
+    public EnsamblePieza(int numRequisito, String tipoMueble, int idTipoPieza, int cantidadPieza) {
         this.numRequisito = numRequisito;
         this.tipoMueble = tipoMueble;
-        this.pieza = pieza;
+        this.idTipoPieza = idTipoPieza;
         this.cantidadPieza = cantidadPieza;
     }
 
-    public EnsamblePieza(String tipoMueble, String pieza, int cantidadPieza) {
+    public EnsamblePieza(String tipoMueble, int idTipoPieza, int cantidadPieza) {
         this.tipoMueble = tipoMueble;
-        this.pieza = pieza;
+        this.idTipoPieza = idTipoPieza;
         this.cantidadPieza = cantidadPieza;
     }
 
@@ -31,16 +31,16 @@ public class EnsamblePieza {
         return tipoMueble;
     }
 
-    public void setTipoMueble(String tipoMueble) {
+    public void setIdTipoMueble(String tipoMueble) {
         this.tipoMueble = tipoMueble;
     }
 
-    public String getPieza() {
-        return pieza;
+    public int getIdTipoPieza() {
+        return idTipoPieza;
     }
 
-    public void setPieza(String pieza) {
-        this.pieza = pieza;
+    public void setIdTipoPieza(int idTipoPieza) {
+        this.idTipoPieza = idTipoPieza;
     }
 
     public int getCantidadPieza() {

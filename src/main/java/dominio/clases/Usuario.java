@@ -2,11 +2,18 @@ package dominio.clases;
 
 public class Usuario {
 
+    private int idArea;
     private String nombre; //Llave primaria
     private String password;
     private String area;
 
     public Usuario() {
+    }
+
+    public Usuario(String nombre, String password, int idArea) {
+        this.nombre = nombre;
+        this.password = password;
+        this.idArea = idArea;
     }
 
     public Usuario(String nombre, String password, String area) {
@@ -19,6 +26,10 @@ public class Usuario {
         this.nombre = nombre;
     }
 
+    public int getIdArea() {
+        return this.idArea;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -29,6 +40,10 @@ public class Usuario {
 
     public String getArea() {
         return area;
+    }
+
+    public void setidArea(int idArea) {
+        this.idArea = idArea;
     }
 
     public void setNombre(String nombre) {

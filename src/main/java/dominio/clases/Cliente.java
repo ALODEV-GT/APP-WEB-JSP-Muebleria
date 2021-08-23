@@ -2,8 +2,8 @@ package dominio.clases;
 
 public class Cliente {
 
-    private String nombre;
     private String nit; //LLave primaria
+    private String nombre;
     private String direccion;
     private String municipo;
     private String departamento;
@@ -21,6 +21,12 @@ public class Cliente {
         this.direccion = direccion;
         this.municipo = municipo;
         this.departamento = departamento;
+    }
+
+    public Cliente(String nombre, String nit, String direccion) {
+        this.nombre = nombre;
+        this.nit = nit;
+        this.direccion = direccion;
     }
 
     public String getNombre() {
