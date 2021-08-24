@@ -1,5 +1,6 @@
 package datos;
 
+import dominio.cargarDatos.MisExcepciones;
 import dominio.clases.EnsamblePieza;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -81,6 +82,11 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
 
     @Override
     public int actualizar(EnsamblePieza modelo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<EnsamblePieza> listar() throws MisExcepciones, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

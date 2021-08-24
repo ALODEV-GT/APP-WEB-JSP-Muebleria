@@ -131,4 +131,9 @@ public class UsuarioDao implements Sentencias<Usuario> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public List<Usuario> listar() throws MisExcepciones, SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

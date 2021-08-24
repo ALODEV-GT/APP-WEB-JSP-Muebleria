@@ -1,5 +1,6 @@
 package datos;
 
+import dominio.cargarDatos.MisExcepciones;
 import dominio.clases.Cliente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -79,6 +80,11 @@ public class ClienteDao implements Sentencias<Cliente> {
 
     @Override
     public int actualizar(Cliente modelo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Cliente> listar() throws MisExcepciones, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

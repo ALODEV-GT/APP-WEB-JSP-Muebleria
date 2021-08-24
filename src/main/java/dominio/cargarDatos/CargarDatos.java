@@ -381,7 +381,7 @@ public class CargarDatos {
             }
 
             if (nit.length() > 15) {
-                throw new MisExcepciones("El numero de nit, es muy grande");
+                throw new MisExcepciones("El numero de nit, es muy largo");
             }
 
             ClienteDao clienteDao = new ClienteDao();

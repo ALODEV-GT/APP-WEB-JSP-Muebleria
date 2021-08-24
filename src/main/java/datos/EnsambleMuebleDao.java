@@ -1,5 +1,6 @@
 package datos;
 
+import dominio.cargarDatos.MisExcepciones;
 import dominio.clases.EnsamblarMueble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,6 +52,11 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
 
     @Override
     public int actualizar(EnsamblarMueble modelo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<EnsamblarMueble> listar() throws MisExcepciones, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

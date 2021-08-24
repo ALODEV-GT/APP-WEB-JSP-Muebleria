@@ -1,3 +1,4 @@
+<%@page session="true" %>
 <!DOCTYPE html>
 <html>
     <head>

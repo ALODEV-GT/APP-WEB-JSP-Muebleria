@@ -1,4 +1,4 @@
-package web;
+package web.controladores;
 
 import dominio.cargarDatos.CargarDatos;
 import java.io.File;

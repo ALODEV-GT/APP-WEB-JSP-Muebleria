@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TipoPiezaDao implements Sentencias<TipoPieza> {
@@ -16,6 +17,36 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
     private static final String SQL_AGREGAR_PIEZA = "UPDATE tipo_pieza SET cantidad=cantidad+1 WHERE id_tipo_pieza=?";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM tipo_pieza WHERE id_tipo_pieza = ?";
     private static final String SQL_USAR_PIEZA = "UPDATE tipo_pieza SET cantidad = cantidad - 1 WHERE id_tipo_pieza = ?";
+    private static final String SQL_PIEZAS_POR_AGOTAR = "SELECT * FROM tipo_pieza WHERE cantidad<20";
+    private static final String SQL_SELECT = "SELECT * FROM tipo_pieza";
+
+    public List<TipoPieza> listarPiezasPorAgotar() throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<TipoPieza> piezas = new ArrayList<>();
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_PIEZAS_POR_AGOTAR);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int idTipoPieza = rs.getInt("id_tipo_pieza");
+                String nombre = rs.getString("nombre");
+                int cantidad = rs.getInt("cantidad");
+                TipoPieza tipoPieza = new TipoPieza(idTipoPieza, nombre, cantidad);
+                piezas.add(tipoPieza);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return piezas;
+    }
 
     public void usarPieza(int idPieza) {
         Connection conn = null;
@@ -207,6 +238,35 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             Conexion.close(stmt);
             Conexion.close(conn);
         }
+    }
+
+    @Override
+    public List<TipoPieza> listar() throws MisExcepciones, SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<TipoPieza> piezas = new ArrayList<>();
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_SELECT);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int idTipoPieza = rs.getInt("id_tipo_pieza");
+                String nombre = rs.getString("nombre");
+                int cantidad = rs.getInt("cantidad");
+                TipoPieza tipoPieza = new TipoPieza(idTipoPieza, nombre, cantidad);
+                piezas.add(tipoPieza);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return piezas;
     }
 
 }
