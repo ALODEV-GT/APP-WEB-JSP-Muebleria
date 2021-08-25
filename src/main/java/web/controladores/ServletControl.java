@@ -37,7 +37,7 @@ public class ServletControl extends HttpServlet {
 
             } else if (accionFabrica != null) {
                 ControladorFabrica controladorFabrica = new ControladorFabrica();
-                controladorFabrica.fabricaAcciones(request, response);
+                controladorFabrica.fabricaAccionesGET(request, response);
             }
         } catch (MisExcepciones ex) {
             System.err.println("Error: " + ex.getMessage());
@@ -48,21 +48,24 @@ public class ServletControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String accion = request.getParameter("accion");
+        String accionFabrica = request.getParameter("accionFabrica");
+        try {
+            if (accion != null) {
+                switch (accion) {
+                    case "validarUsuario":
+                        this.validarUsuario(request, response);
 
-        if (accion != null) {
-            switch (accion) {
-                case "validarUsuario": 
-                    try {
-                    this.validarUsuario(request, response);
-                } catch (MisExcepciones ex) {
-                    request.setAttribute("mensaje", ex.getMessage());
-                    request.getRequestDispatcher("/publicas/login.jsp").forward(request, response);
+                        break;
+                    default:
+                        response.sendRedirect("publicas/login.jsp");
                 }
-
-                break;
-                default:
-                    response.sendRedirect("publicas/login.jsp");
+            } else if (accionFabrica != null) {
+                ControladorFabrica controladorFabrica = new ControladorFabrica();
+                controladorFabrica.fabricaAccionesPost(request, response);
             }
+        } catch (MisExcepciones ex) {
+            request.setAttribute("mensaje", ex.getMessage());
+            request.getRequestDispatcher("/publicas/login.jsp").forward(request, response);
         }
     }
 

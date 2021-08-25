@@ -17,6 +17,12 @@ public class Pieza {
         this.precio = precio;
     }
 
+    public Pieza(int idPieza, String tipoPieza, double precio) {
+        this.idPieza = idPieza;
+        this.tipoPieza = tipoPieza;
+        this.precio = precio;
+    }
+    
     public Pieza(int idTipoPieza, int idPieza, String tipoPieza, double precio) {
         this.idTipoPieza = idTipoPieza;
         this.idPieza = idPieza;

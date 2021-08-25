@@ -2,7 +2,7 @@
 <jsp:include page="/WEB-INF/paginas/comunes/encabezado.jsp"/>
 <jsp:include page="/WEB-INF/paginas/fabrica/menu.jsp"/>
 <h3>MATERIA PRIMA</h3>
-
+<a href="${pageContext.request.contextPath}/ServletControlador?accionFabrica=inventario">INVENTARIO DE PIEZAS</a>
 <table>
     <thead>
         <tr>
@@ -25,6 +25,7 @@
         </c:forEach>
     </tbody>
 </table>
-<a href="${pageContext.request.contextPath}/ServletControlador?pagina=AgregarTipoPieza">Agregar pieza</a>
+
+<a href="${pageContext.request.contextPath}/ServletControlador?accionFabrica=agregarTipoPieza">Agregar pieza</a>
 
 <jsp:include page="/WEB-INF/paginas/comunes/pieDePagina.jsp"/>

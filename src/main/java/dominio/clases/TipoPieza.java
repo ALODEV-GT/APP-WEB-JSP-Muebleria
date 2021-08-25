@@ -6,6 +6,11 @@ public class TipoPieza {
     private String nombre;
     private int cantidad;
 
+    public TipoPieza(int idTipoPieza, String nombre) {
+        this.idTipoPieza = idTipoPieza;
+        this.nombre = nombre;
+    }
+
     public TipoPieza() {
     }
 

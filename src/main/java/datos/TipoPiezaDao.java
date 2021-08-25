@@ -19,6 +19,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
     private static final String SQL_USAR_PIEZA = "UPDATE tipo_pieza SET cantidad = cantidad - 1 WHERE id_tipo_pieza = ?";
     private static final String SQL_PIEZAS_POR_AGOTAR = "SELECT * FROM tipo_pieza WHERE cantidad<20";
     private static final String SQL_SELECT = "SELECT * FROM tipo_pieza";
+    private static final String SQL_UPDATE_NOMBRE = "UPDATE tipo_pieza SET nombre = ? WHERE id_tipo_pieza = ?";
 
     public List<TipoPieza> listarPiezasPorAgotar() throws SQLException {
         Connection conn = null;
@@ -211,6 +212,26 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             stmt.setDouble(2, modelo.getCantidad());
             stmt.setInt(3, modelo.getIdTipoPieza());
 
+            numModificados = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return numModificados;
+    }
+
+    public int actualizarNombre(TipoPieza modelo) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        int numModificados = 0;
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_UPDATE_NOMBRE);
+            stmt.setString(1, modelo.getNombre());
+            stmt.setInt(2, modelo.getIdTipoPieza());
             numModificados = stmt.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
