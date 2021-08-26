@@ -10,6 +10,7 @@
             <th>Nombre</th>
             <th>Cantidad</th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -20,6 +21,9 @@
                 <td>${tp.cantidad}</td>
                 <td>
                     <a href="${pageContext.request.contextPath}/ServletControlador?accionFabrica=editarTipoPieza&idTipoPieza=${tp.idTipoPieza}">Editar</a>
+                </td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/ServletControlador?accionFabrica=eliminarTipoPieza&idTipoPieza=${tp.idTipoPieza}">Eliminar</a>
                 </td>
             </tr>
         </c:forEach>

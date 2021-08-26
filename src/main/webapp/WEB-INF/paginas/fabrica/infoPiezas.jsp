@@ -8,17 +8,25 @@
             <th>ID</th>
             <th>Nombre</th>
             <th>Precio</th>
+            <th> </th>
+            <th> </th>
         </tr>
     </thead>
     <tbody>
-    <c:forEach var="todasLasPiezas" items="${todasLasPiezas}">
-        <tr>
-            <td>${todasLasPiezas.idPieza}</td>
-            <td>${todasLasPiezas.tipoPieza}</td>
-            <td>${todasLasPiezas.precio}</td>
-        </tr>
-    </c:forEach>
-</tbody>
+        <c:forEach var="todasLasPiezas" items="${todasLasPiezas}">
+            <tr>
+                <td>${todasLasPiezas.idPieza}</td>
+                <td>${todasLasPiezas.tipoPieza}</td>
+                <td>${todasLasPiezas.precio}</td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/ServletControlador?accionFabrica=editarPieza&idPieza=${todasLasPiezas.idPieza}">Editar</a>
+                </td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/ServletControlador?accionFabrica=eliminarPieza&idPieza=${todasLasPiezas.idPieza}">Eliminar</a>
+                </td>
+            </tr>
+        </c:forEach>
+    </tbody>
 </table>
 
 

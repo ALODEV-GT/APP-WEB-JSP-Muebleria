@@ -12,14 +12,17 @@ import java.util.List;
 public class TipoPiezaDao implements Sentencias<TipoPieza> {
 
     private static final String SQL_SELECT_BY_NOMBRE = "SELECT * FROM tipo_pieza WHERE nombre=?";
-    private static final String SQL_INSERT = "INSERT INTO tipo_pieza(nombre, cantidad) VALUES(?, 0)";
+    private static final String SQL_INSERT = "INSERT INTO tipo_pieza(nombre, cantidad, eliminado) VALUES(?, 0,0)";
     private static final String SQL_UPDATE = "UPDATE tipo_pieza SET nombre = ?, cantidad = ? WHERE id_tipo_pieza = ?";
     private static final String SQL_AGREGAR_PIEZA = "UPDATE tipo_pieza SET cantidad=cantidad+1 WHERE id_tipo_pieza=?";
+    private static final String SQL_QUITAR_PIEZA = "UPDATE tipo_pieza SET cantidad=cantidad-1 WHERE id_tipo_pieza=?";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM tipo_pieza WHERE id_tipo_pieza = ?";
     private static final String SQL_USAR_PIEZA = "UPDATE tipo_pieza SET cantidad = cantidad - 1 WHERE id_tipo_pieza = ?";
-    private static final String SQL_PIEZAS_POR_AGOTAR = "SELECT * FROM tipo_pieza WHERE cantidad<20";
-    private static final String SQL_SELECT = "SELECT * FROM tipo_pieza";
+    private static final String SQL_PIEZAS_POR_AGOTAR = "SELECT * FROM tipo_pieza WHERE cantidad<20 AND eliminado = 0";
+    private static final String SQL_SELECT = "SELECT * FROM tipo_pieza WHERE eliminado=0";
     private static final String SQL_UPDATE_NOMBRE = "UPDATE tipo_pieza SET nombre = ? WHERE id_tipo_pieza = ?";
+    private static final String SQL_DESHABILITAR = "UPDATE tipo_pieza SET eliminado=1 WHERE id_tipo_pieza=?";
+    private static final String SQL_HABILITAR = "UPDATE tipo_pieza SET eliminado=0 WHERE nombre=?";
 
     public List<TipoPieza> listarPiezasPorAgotar() throws SQLException {
         Connection conn = null;
@@ -196,7 +199,45 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
 
     @Override
     public int eliminar(TipoPieza modelo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 0;
+    }
+
+    public int deshabilitar(TipoPieza modelo) {
+        int numModificados = 0;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_DESHABILITAR);
+            stmt.setInt(1, modelo.getIdTipoPieza());
+            numModificados = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return numModificados;
+    }
+    
+    public int habilitar(String nombre) {
+        int numModificados = 0;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_HABILITAR);
+            stmt.setString(1,nombre);
+            numModificados = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return numModificados;
     }
 
     @Override
@@ -250,6 +291,25 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_AGREGAR_PIEZA);
+            stmt.setInt(1, modelo.getIdTipoPieza());
+
+            numModificados = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+    }
+
+    public void quitarPieza(TipoPieza modelo) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        int numModificados = 0;
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_QUITAR_PIEZA);
             stmt.setInt(1, modelo.getIdTipoPieza());
 
             numModificados = stmt.executeUpdate();

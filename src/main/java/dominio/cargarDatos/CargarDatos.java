@@ -20,12 +20,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 public class CargarDatos {
 
@@ -195,6 +192,9 @@ public class CargarDatos {
             if (!tipoPiezaDAO.existe(tipoPieza)) {
                 tipoPiezaDAO.insertar(modelo);
             }
+            
+            tipoPiezaDAO.habilitar(tipoPieza);
+            
             modelo = tipoPiezaDAO.encontrar(modelo);
 
             int idTipoPieza = modelo.getIdTipoPieza();
