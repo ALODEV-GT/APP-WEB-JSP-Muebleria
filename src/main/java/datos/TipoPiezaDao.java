@@ -220,7 +220,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         }
         return numModificados;
     }
-    
+
     public int habilitar(String nombre) {
         int numModificados = 0;
         Connection conn = null;
@@ -229,7 +229,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_HABILITAR);
-            stmt.setString(1,nombre);
+            stmt.setString(1, nombre);
             numModificados = stmt.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
@@ -321,6 +321,36 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         }
     }
 
+    public List<TipoPieza> listar(boolean descendente) throws MisExcepciones, SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<TipoPieza> piezas = new ArrayList<>();
+
+        try {
+            conn = Conexion.getConnection();
+
+            String orden = descendente ? "ORDER BY cantidad DESC" : "ORDER BY cantidad ASC";
+            stmt = conn.prepareStatement(SQL_SELECT +" "+ orden);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int idTipoPieza = rs.getInt("id_tipo_pieza");
+                String nombre = rs.getString("nombre");
+                int cantidad = rs.getInt("cantidad");
+                TipoPieza tipoPieza = new TipoPieza(idTipoPieza, nombre, cantidad);
+                piezas.add(tipoPieza);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return piezas;
+    }
+
     @Override
     public List<TipoPieza> listar() throws MisExcepciones, SQLException {
         Connection conn = null;
@@ -330,6 +360,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
 
         try {
             conn = Conexion.getConnection();
+
             stmt = conn.prepareStatement(SQL_SELECT);
             rs = stmt.executeQuery();
             while (rs.next()) {

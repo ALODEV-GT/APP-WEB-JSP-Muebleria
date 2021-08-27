@@ -3,6 +3,11 @@
 <jsp:include page="/WEB-INF/paginas/fabrica/menu.jsp"/>
 <h3>MATERIA PRIMA</h3>
 <a href="${pageContext.request.contextPath}/ServletControlador?accionFabrica=inventario">INVENTARIO DE PIEZAS</a>
+
+<a href="${pageContext.request.contextPath}/ServletControlador?pagina=materiaPrima&orden=asc">Ascendente</a>
+<a href="${pageContext.request.contextPath}/ServletControlador?pagina=materiaPrima&orden=desc">Descendente</a>
+
+
 <table>
     <thead>
         <tr>
@@ -30,6 +35,6 @@
     </tbody>
 </table>
 
-<a href="${pageContext.request.contextPath}/ServletControlador?accionFabrica=agregarTipoPieza">Agregar pieza</a>
+<a href="${pageContext.request.contextPath}/ServletControlador?accionFabrica=agregarTipoPieza">Agregar un nuevo tipo de pieza</a>
 
 <jsp:include page="/WEB-INF/paginas/comunes/pieDePagina.jsp"/>

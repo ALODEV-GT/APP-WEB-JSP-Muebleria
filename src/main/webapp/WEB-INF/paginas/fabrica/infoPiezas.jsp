@@ -29,5 +29,6 @@
     </tbody>
 </table>
 
+<a href="${pageContext.request.contextPath}/ServletControlador?accionFabrica=agregarPieza">Agregar pieza</a>
 
 <jsp:include page="/WEB-INF/paginas/comunes/pieDePagina.jsp"/>

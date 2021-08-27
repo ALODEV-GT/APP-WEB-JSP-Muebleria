@@ -38,14 +38,17 @@ public class ControladorFabrica {
                 case "eliminarPieza":
                     eliminarPieza(request, response);
                     break;
+                case "agregarPieza":
+                    redireccionarParaAgregarPieza(request, response);
+                    break;
             }
-        } catch (ServletException | IOException ex) {
+        } catch (ServletException | IOException | SQLException ex) {
             ex.printStackTrace(System.out);
             throw new MisExcepciones("Ocurrio un error en FABRICA ACCIONES");
         }
     }
 
-    public void fabricaAccionesPost(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
+    public void fabricaAccionesPost(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException, SQLException {
         String accionesFabrica = request.getParameter("accionFabrica");
 
         switch (accionesFabrica) {
@@ -55,8 +58,47 @@ public class ControladorFabrica {
             case "agregarTipoPieza":
                 this.agregarTipoPieza(request, response);
                 break;
+            case "actualizarPieza":
+                this.modificarPieza(request, response);
+                break;
+            case "agregarPieza":
+                this.agregarPieza(request, response);
         }
 
+    }
+
+    private void agregarPieza(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException, SQLException {
+        String tipoPieza = request.getParameter("tipoPieza");
+        double precio = Double.valueOf(request.getParameter("precioPieza"));
+
+        TipoPiezaDao tipoPiezaDao = new TipoPiezaDao();
+        TipoPieza modelotipoPieza = tipoPiezaDao.encontrar(new TipoPieza(tipoPieza));
+
+        new PiezaDao().insertar(new Pieza(modelotipoPieza.getIdTipoPieza(), precio));
+
+        tipoPiezaDao.agregarPieza(modelotipoPieza);
+
+        this.mostrarTodasLasPiezas(request, response);
+    }
+
+    private void redireccionarParaAgregarPieza(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException, SQLException {
+        List<TipoPieza> tipoPiezas = new TipoPiezaDao().listar();
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("tipoPiezas", tipoPiezas);
+        request.getRequestDispatcher("/WEB-INF/paginas/fabrica/agregarPieza.jsp").forward(request, response);
+    }
+
+    private void modificarPieza(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
+        int idPieza = Integer.valueOf(request.getParameter("idPieza"));
+        Double precioPieza = Double.valueOf(request.getParameter("precioPieza"));
+
+        Pieza modeloPieza = new Pieza();
+        modeloPieza.setIdPieza(idPieza);
+        modeloPieza.setPrecio(precioPieza);
+
+        PiezaDao piezaDao = new PiezaDao();
+        piezaDao.actualizar(modeloPieza);
+        this.mostrarTodasLasPiezas(request, response);
     }
 
     private void agregarTipoPieza(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
@@ -135,9 +177,11 @@ public class ControladorFabrica {
     }
 
     private void editarPieza(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
-
+        int idPieza = Integer.valueOf(request.getParameter("idPieza"));
+        Pieza modeloPieza = new PiezaDao().encontrar(new Pieza(idPieza));
+        request.setAttribute("modeloPieza", modeloPieza);
+        request.getRequestDispatcher("/WEB-INF/paginas/fabrica/editarPieza.jsp").forward(request, response);
     }
-
 
     private void editarTipoPieza(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
         int idTipoPieza = Integer.valueOf(request.getParameter("idTipoPieza"));
@@ -147,15 +191,15 @@ public class ControladorFabrica {
     }
 
     private void eliminarTipoPieza(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
-         int idTipoPieza = Integer.valueOf(request.getParameter("idTipoPieza"));
-         TipoPiezaDao tipoPiezaDao = new TipoPiezaDao();
-         TipoPieza tipoPieza = new TipoPieza(idTipoPieza);
-         PiezaDao piezaDao = new PiezaDao();
-         piezaDao.eleminarSegunTipoPieza(idTipoPieza);
-         tipoPiezaDao.deshabilitar(tipoPieza);
-         this.materiaPrima(request, response);
+        int idTipoPieza = Integer.valueOf(request.getParameter("idTipoPieza"));
+        TipoPiezaDao tipoPiezaDao = new TipoPiezaDao();
+        TipoPieza tipoPieza = new TipoPieza(idTipoPieza);
+        PiezaDao piezaDao = new PiezaDao();
+        piezaDao.eleminarSegunTipoPieza(idTipoPieza);
+        tipoPiezaDao.deshabilitar(tipoPieza);
+        this.materiaPrima(request, response);
     }
-    
+
     private void inicio(HttpServletRequest request, HttpServletResponse response) throws ServletException, MisExcepciones, IOException, SQLException {
         List<TipoPieza> piezasPorAgotar = new TipoPiezaDao().listarPiezasPorAgotar();
         HttpSession sesion = request.getSession();
@@ -164,9 +208,20 @@ public class ControladorFabrica {
     }
 
     private void materiaPrima(HttpServletRequest request, HttpServletResponse response) throws ServletException, MisExcepciones, IOException {
-        List<TipoPieza> tipoPiezas;
+        String orden = request.getParameter("orden");
+
         try {
-            tipoPiezas = new TipoPiezaDao().listar();
+            List<TipoPieza> tipoPiezas;
+            if (orden != null) {
+                if (orden.equals("desc")) {
+                    tipoPiezas = new TipoPiezaDao().listar(true);
+                } else {
+                    tipoPiezas = new TipoPiezaDao().listar(false); 
+                }
+            } else {
+                tipoPiezas = new TipoPiezaDao().listar(false); //Defualt: ascendente
+            }
+
             HttpSession sesion = request.getSession();
             sesion.setAttribute("tipoPiezasDisponibles", tipoPiezas);
             request.getRequestDispatcher("/WEB-INF/paginas/fabrica/materiaPrima.jsp").forward(request, response);

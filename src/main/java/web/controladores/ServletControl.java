@@ -4,6 +4,9 @@ import datos.UsuarioDao;
 import dominio.cargarDatos.MisExcepciones;
 import dominio.clases.Usuario;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -66,6 +69,8 @@ public class ServletControl extends HttpServlet {
         } catch (MisExcepciones ex) {
             request.setAttribute("mensaje", ex.getMessage());
             request.getRequestDispatcher("/publicas/login.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ServletControl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
