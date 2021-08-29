@@ -21,4 +21,5 @@
         </c:forEach>
     </tbody>
 </table>
+<jsp:include page="/WEB-INF/paginas/comunes/errores.jsp"/>
 <jsp:include page="/WEB-INF/paginas/comunes/pieDePagina.jsp"/>

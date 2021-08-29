@@ -4,9 +4,6 @@ import datos.UsuarioDao;
 import dominio.cargarDatos.MisExcepciones;
 import dominio.clases.Usuario;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,22 +11,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import web.fabrica.ControladorFabrica;
+import web.fabrica.ControladorVentas;
 
 @WebServlet("/ServletControlador")
 public class ServletControl extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String pagina = request.getParameter("pagina");
+        String paginaFabrica = request.getParameter("paginaFabrica");
         String accion = request.getParameter("accion");
         String accionFabrica = request.getParameter("accionFabrica");
+        String paginaVentas = request.getParameter("paginaVenta");
 
         try {
-            if (pagina == null && accion == null && accionFabrica == null) {
+            if (paginaFabrica == null && accion == null && accionFabrica == null && paginaVentas == null) {
                 response.sendRedirect("publicas/login.jsp");
-            } else if (pagina != null) {
+            } else if (paginaFabrica != null) {
                 ControladorFabrica controladorFabrica = new ControladorFabrica();
                 controladorFabrica.fabricaPaginas(request, response);
+            } else if (paginaVentas != null) {
+                ControladorVentas controladorVentas = new ControladorVentas();
+                controladorVentas.ventasPaginas(request, response);
             } else if (accion != null) {
 
                 switch (accion) {
@@ -43,7 +45,8 @@ public class ServletControl extends HttpServlet {
                 controladorFabrica.fabricaAccionesGET(request, response);
             }
         } catch (MisExcepciones ex) {
-            System.err.println("Error: " + ex.getMessage());
+            request.setAttribute("mensaje", ex.getMessage());
+            request.getRequestDispatcher("/WEB-INF/paginas/comunes/paginaErrores.jsp").forward(request, response);
         }
 
     }
@@ -52,6 +55,7 @@ public class ServletControl extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String accion = request.getParameter("accion");
         String accionFabrica = request.getParameter("accionFabrica");
+        String accionVentas = request.getParameter("accionVentas");
         try {
             if (accion != null) {
                 switch (accion) {
@@ -65,21 +69,26 @@ public class ServletControl extends HttpServlet {
             } else if (accionFabrica != null) {
                 ControladorFabrica controladorFabrica = new ControladorFabrica();
                 controladorFabrica.fabricaAccionesPost(request, response);
+            }else if (accionVentas != null ) {
+                ControladorVentas controladorVentas = new ControladorVentas();
+                controladorVentas.ventasAccionesPost(request, response);
             }
         } catch (MisExcepciones ex) {
             request.setAttribute("mensaje", ex.getMessage());
-            request.getRequestDispatcher("/publicas/login.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ServletControl.class.getName()).log(Level.SEVERE, null, ex);
+            request.getRequestDispatcher("/WEB-INF/paginas/comunes/paginaErrores.jsp").forward(request, response);
         }
     }
 
-    private void logOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, MisExcepciones {
-        HttpSession sesion = request.getSession(true);
-        sesion.removeAttribute("nombreUsuario");
-        sesion.removeAttribute("password");
-        sesion.invalidate();
-        response.sendRedirect("publicas/login.jsp");
+    private void logOut(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones {
+        try {
+            HttpSession sesion = request.getSession(true);
+            sesion.removeAttribute("nombreUsuario");
+            sesion.removeAttribute("password");
+            sesion.invalidate();
+            response.sendRedirect("publicas/login.jsp");
+        } catch (IOException ex) {
+            throw new MisExcepciones("Ocurrio un error al intentar cerrar la sesion");
+        }
     }
 
     private void validarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, MisExcepciones {
@@ -108,19 +117,23 @@ public class ServletControl extends HttpServlet {
         sesion.setAttribute("nombreUsuario", nombreUsuario);
         sesion.setAttribute("area", area.toUpperCase());
 
-        switch (area) {
-            case "Financiero":
-                request.getRequestDispatcher("/WEB-INF/paginas/administracion/administracion.jsp").forward(request, response);
+        try {
+            switch (area) {
+                case "Financiero":
+                    request.getRequestDispatcher("/WEB-INF/paginas/administracion/administracion.jsp").forward(request, response);
+                    break;
+                case "Fabrica": {
+                    ControladorFabrica controladorFabrica = new ControladorFabrica();
+                    controladorFabrica.fabricaPaginas(request, response);
+                }
                 break;
-            case "Fabrica": {
-                ControladorFabrica controladorFabrica = new ControladorFabrica();
-                controladorFabrica.fabricaPaginas(request, response);
-            }
-            break;
 
-            case "Punto de venta":
-                request.getRequestDispatcher("/WEB-INF/paginas/venta/ventas.jsp").forward(request, response);
-                break;
+                case "Punto de venta":
+                    request.getRequestDispatcher("/WEB-INF/paginas/venta/ventas.jsp").forward(request, response);
+                    break;
+            }
+        } catch (ServletException | IOException ex) {
+            throw new MisExcepciones("Ocurrio un error al intentar mostrar la pagina");
         }
 
     }

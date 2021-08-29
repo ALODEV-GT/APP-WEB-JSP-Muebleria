@@ -8,5 +8,5 @@
     <input type="number" name="precioPieza" required step="any" value="${modeloPieza.precio}" />
     <button type="submit">Guardar cambios</button>
 </form>
-
+<jsp:include page="/WEB-INF/paginas/comunes/errores.jsp"/>
 <jsp:include page="/WEB-INF/paginas/comunes/pieDePagina.jsp"/>

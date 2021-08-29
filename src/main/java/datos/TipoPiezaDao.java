@@ -24,7 +24,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
     private static final String SQL_DESHABILITAR = "UPDATE tipo_pieza SET eliminado=1 WHERE id_tipo_pieza=?";
     private static final String SQL_HABILITAR = "UPDATE tipo_pieza SET eliminado=0 WHERE nombre=?";
 
-    public List<TipoPieza> listarPiezasPorAgotar() throws SQLException {
+    public List<TipoPieza> listarPiezasPorAgotar() throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -43,7 +43,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
@@ -52,7 +52,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return piezas;
     }
 
-    public void usarPieza(int idPieza) {
+    public void usarPieza(int idPieza) throws MisExcepciones{
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -64,7 +64,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             int numMod = stmt.executeUpdate();
 
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
             Conexion.close(conn);
@@ -93,7 +93,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
@@ -121,7 +121,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
@@ -141,26 +141,18 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_SELECT_BY_NOMBRE);
             stmt.setString(1, modelo.getNombre().toUpperCase());
-            boolean existe = false;
 
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                existe = true;
                 int cantidad = rs.getInt("cantidad");
                 int idTipoPieza = rs.getInt("id_tipo_pieza");
                 modelo.setCantidad(cantidad);
                 modelo.setIdTipoPieza(idTipoPieza);
             }
 
-            if (!existe) {
-                Conexion.close(rs);
-                Conexion.close(stmt);
-                Conexion.close(conn);
-                throw new MisExcepciones("No existe esta pieza");
-            }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
@@ -171,7 +163,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
     }
 
     @Override
-    public List<TipoPieza> listar(TipoPieza modelo) {
+    public List<TipoPieza> listar(TipoPieza modelo) throws MisExcepciones {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -188,8 +180,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
 
             numModificados = stmt.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
-            throw new MisExcepciones("Esta pieza ya existe");
+             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
             Conexion.close(conn);
@@ -198,11 +189,11 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
     }
 
     @Override
-    public int eliminar(TipoPieza modelo) {
+    public int eliminar(TipoPieza modelo) throws MisExcepciones{
         return 0;
     }
 
-    public int deshabilitar(TipoPieza modelo) {
+    public int deshabilitar(TipoPieza modelo) throws MisExcepciones{
         int numModificados = 0;
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -213,7 +204,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             stmt.setInt(1, modelo.getIdTipoPieza());
             numModificados = stmt.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
             Conexion.close(conn);
@@ -221,7 +212,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return numModificados;
     }
 
-    public int habilitar(String nombre) {
+    public int habilitar(String nombre) throws MisExcepciones {
         int numModificados = 0;
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -232,7 +223,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             stmt.setString(1, nombre);
             numModificados = stmt.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
             Conexion.close(conn);
@@ -241,7 +232,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
     }
 
     @Override
-    public int actualizar(TipoPieza modelo) {
+    public int actualizar(TipoPieza modelo) throws MisExcepciones{
         Connection conn = null;
         PreparedStatement stmt = null;
         int numModificados = 0;
@@ -255,7 +246,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
 
             numModificados = stmt.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
             Conexion.close(conn);
@@ -263,7 +254,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return numModificados;
     }
 
-    public int actualizarNombre(TipoPieza modelo) {
+    public int actualizarNombre(TipoPieza modelo) throws MisExcepciones{
         Connection conn = null;
         PreparedStatement stmt = null;
         int numModificados = 0;
@@ -275,7 +266,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             stmt.setInt(2, modelo.getIdTipoPieza());
             numModificados = stmt.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
             Conexion.close(conn);
@@ -283,45 +274,43 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return numModificados;
     }
 
-    public void agregarPieza(TipoPieza modelo) {
+    public void agregarPieza(TipoPieza modelo) throws MisExcepciones{
         Connection conn = null;
         PreparedStatement stmt = null;
-        int numModificados = 0;
 
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_AGREGAR_PIEZA);
             stmt.setInt(1, modelo.getIdTipoPieza());
 
-            numModificados = stmt.executeUpdate();
+            stmt.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
             Conexion.close(conn);
         }
     }
 
-    public void quitarPieza(TipoPieza modelo) {
+    public void quitarPieza(TipoPieza modelo) throws MisExcepciones{
         Connection conn = null;
         PreparedStatement stmt = null;
-        int numModificados = 0;
 
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_QUITAR_PIEZA);
             stmt.setInt(1, modelo.getIdTipoPieza());
 
-            numModificados = stmt.executeUpdate();
+            stmt.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
             Conexion.close(conn);
         }
     }
 
-    public List<TipoPieza> listar(boolean descendente) throws MisExcepciones, SQLException {
+    public List<TipoPieza> listar(boolean descendente) throws MisExcepciones{
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -342,7 +331,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
@@ -352,7 +341,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
     }
 
     @Override
-    public List<TipoPieza> listar() throws MisExcepciones, SQLException {
+    public List<TipoPieza> listar() throws MisExcepciones{
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -372,7 +361,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);

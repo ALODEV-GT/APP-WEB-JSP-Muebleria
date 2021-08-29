@@ -15,7 +15,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
     private static final String SQL_SELECT_EXISTE_USUARIO = "SELECT * FROM usuario WHERE nombre_usuario=?";
     private static final String SQL_SELECT_EXISTE_AREA = "SELECT * FROM area WHERE id_area=?";
 
-    public boolean existe(int idArea) {
+    public boolean existe(int idArea) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -30,7 +30,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
                 existe = true;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
@@ -40,7 +40,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
         return existe;
     }
 
-    public boolean existe(String nombreUsuario) {
+    public boolean existe(String nombreUsuario) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -55,7 +55,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
                 existe = true;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
@@ -84,7 +84,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
                 usuario.setArea(area);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
@@ -108,7 +108,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
             stmt.setInt(3, usuario.getIdArea());
             numModificados = stmt.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
             Conexion.close(conn);
@@ -132,7 +132,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
     }
 
     @Override
-    public List<Usuario> listar() throws MisExcepciones, SQLException {
+    public List<Usuario> listar() throws MisExcepciones {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

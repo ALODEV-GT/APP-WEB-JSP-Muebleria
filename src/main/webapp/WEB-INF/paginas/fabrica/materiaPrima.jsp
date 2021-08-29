@@ -4,8 +4,8 @@
 <h3>MATERIA PRIMA</h3>
 <a href="${pageContext.request.contextPath}/ServletControlador?accionFabrica=inventario">INVENTARIO DE PIEZAS</a>
 
-<a href="${pageContext.request.contextPath}/ServletControlador?pagina=materiaPrima&orden=asc">Ascendente</a>
-<a href="${pageContext.request.contextPath}/ServletControlador?pagina=materiaPrima&orden=desc">Descendente</a>
+<a href="${pageContext.request.contextPath}/ServletControlador?paginaFabrica=materiaPrima&orden=asc">Ascendente</a>
+<a href="${pageContext.request.contextPath}/ServletControlador?paginaFabrica=materiaPrima&orden=desc">Descendente</a>
 
 
 <table>
@@ -36,5 +36,5 @@
 </table>
 
 <a href="${pageContext.request.contextPath}/ServletControlador?accionFabrica=agregarTipoPieza">Agregar un nuevo tipo de pieza</a>
-
+<jsp:include page="/WEB-INF/paginas/comunes/errores.jsp"/>
 <jsp:include page="/WEB-INF/paginas/comunes/pieDePagina.jsp"/>

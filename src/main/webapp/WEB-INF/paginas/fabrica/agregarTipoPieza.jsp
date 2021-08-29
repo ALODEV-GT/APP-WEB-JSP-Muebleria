@@ -6,5 +6,5 @@
     <input name="nombreNuevoTipoPieza" type="text" required  />
     <button type="submit">Agregar</button>
 </form>
-
+<jsp:include page="/WEB-INF/paginas/comunes/errores.jsp"/>
 <jsp:include page="/WEB-INF/paginas/comunes/pieDePagina.jsp"/>

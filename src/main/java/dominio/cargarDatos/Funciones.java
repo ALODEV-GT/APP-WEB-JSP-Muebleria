@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Funciones {
 
-    public static String formatearFecha(String fechaString) throws DateTimeException {
+    public static String formatearFechaEsAEn(String fechaString) throws DateTimeException {
         DateTimeFormatter formatoARecibir = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter formatoADevolver = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate fecha = LocalDate.parse(fechaString, formatoARecibir);
@@ -14,9 +14,11 @@ public class Funciones {
         return fechaFormateada;
     }
 
-    public static String formaterFechaRecibida(LocalDate fecha)  throws DateTimeException{
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String fechaFormateada = fecha.format(formato);
+    public static String formatearFechaEnAEs(String fechaString)  throws DateTimeException{
+        DateTimeFormatter formatoARecibir = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatoADevolver = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fecha = LocalDate.parse(fechaString, formatoARecibir);
+        String fechaFormateada = fecha.format(formatoADevolver);
         return fechaFormateada;
     }
 }

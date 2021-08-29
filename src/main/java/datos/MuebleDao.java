@@ -6,15 +6,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MuebleDao implements Sentencias<Mueble> {
 
     private static final String SQL_INSERT = "INSERT INTO mueble(tipo_mueble, precio) VALUES(?,?)";
     private static final String SQL_SELECT_BY_NOMBRE = "SELECT * FROM mueble WHERE tipo_mueble=?";
+    private static final String SQL_SELECT = "SELECT * FROM mueble";
 
     @Override
-    public Mueble encontrar(Mueble modelo) throws MisExcepciones, SQLException {
+    public Mueble encontrar(Mueble modelo) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -31,7 +33,7 @@ public class MuebleDao implements Sentencias<Mueble> {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
@@ -40,7 +42,7 @@ public class MuebleDao implements Sentencias<Mueble> {
         return modelo;
     }
 
-    public boolean existe(String nombre) throws MisExcepciones, SQLException {
+    public boolean existe(String nombre) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -57,7 +59,7 @@ public class MuebleDao implements Sentencias<Mueble> {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
@@ -72,7 +74,7 @@ public class MuebleDao implements Sentencias<Mueble> {
     }
 
     @Override
-    public int insertar(Mueble modelo) {
+    public int insertar(Mueble modelo) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
         int numModificados = 0;
@@ -85,7 +87,7 @@ public class MuebleDao implements Sentencias<Mueble> {
 
             numModificados = stmt.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
             Conexion.close(conn);
@@ -105,8 +107,32 @@ public class MuebleDao implements Sentencias<Mueble> {
     }
 
     @Override
-    public List<Mueble> listar() throws MisExcepciones, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Mueble> listar() throws MisExcepciones{
+         Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Mueble> muebles = new ArrayList<>();
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_SELECT);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String nombre = rs.getString("tipo_mueble");
+                double precio = rs.getDouble("precio");
+                Mueble mueble = new Mueble(nombre, precio);
+                muebles.add(mueble);
+            }
+
+        } catch (SQLException ex) {
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return muebles;
     }
 
 }

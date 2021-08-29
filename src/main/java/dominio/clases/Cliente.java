@@ -2,11 +2,11 @@ package dominio.clases;
 
 public class Cliente {
 
-    private String nit; //LLave primaria
-    private String nombre;
-    private String direccion;
-    private String municipo;
-    private String departamento;
+    private String nit=""; //LLave primaria
+    private String nombre="";
+    private String direccion="";
+    private String municipo="";
+    private String departamento="";
 
     public Cliente() {
     }

@@ -1,5 +1,6 @@
 package dominio.cargarDatos;
 
+import datos.ArmadoDao;
 import datos.ClienteDao;
 import datos.EnsambleMuebleDao;
 import datos.EnsamblePiezaDao;
@@ -7,6 +8,7 @@ import datos.MuebleDao;
 import datos.PiezaDao;
 import datos.TipoPiezaDao;
 import datos.UsuarioDao;
+import dominio.clases.Armado;
 import dominio.clases.Cliente;
 import dominio.clases.EnsamblarMueble;
 import dominio.clases.EnsamblePieza;
@@ -19,7 +21,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +44,7 @@ public class CargarDatos {
             encabezado = extraerEncabezado(lineasArchivo[i]);
             campos = extraerCampos(quitarComillasYEspacios(lineasArchivo[i]));
             try {
-                procesarLinea(encabezado, campos, i);
+                procesarLinea(encabezado, campos);
             } catch (MisExcepciones ex) {
                 agregarError("Linea " + (i + 1) + ": " + ex.getMessage());
             }
@@ -60,26 +61,26 @@ public class CargarDatos {
         return nuevaLinea;
     }
 
-    private void procesarLinea(String encabezado, ArrayList<String> campos, int indice) throws MisExcepciones {
+    private void procesarLinea(String encabezado, ArrayList<String> campos) throws MisExcepciones {
 
         switch (encabezado) {
             case "USUARIO":
-                cargarUsuario(encabezado, campos, indice);
+                cargarUsuario(campos);
                 break;
             case "PIEZA":
-                cargarPieza(encabezado, campos, indice);
+                cargarPieza(campos);
                 break;
             case "MUEBLE":
-                cargarMueble(encabezado, campos, indice);
+                cargarMueble(campos);
                 break;
             case "ENSAMBLE_PIEZAS":
-                cargarEnsamblePiezas(encabezado, campos, indice);
+                cargarEnsamblePiezas(campos);
                 break;
             case "ENSAMBLAR_MUEBLE":
-                cargarEnsamblarMueble(encabezado, campos, indice);
+                cargarEnsamblarMueble(campos);
                 break;
             case "CLIENTE":
-                cargarCliente(encabezado, campos, indice);
+                cargarCliente(campos);
                 break;
         }
     }
@@ -136,7 +137,7 @@ public class CargarDatos {
         this.errores += error + "%";
     }
 
-    private void cargarUsuario(String encabezado, ArrayList<String> campos, int indice) throws MisExcepciones {
+    private void cargarUsuario(ArrayList<String> campos) throws MisExcepciones {
         try {
             if (campos.size() != 3) {
                 throw new MisExcepciones("Es necesario ingresar (\"nombre\",\"contrasena\",id_area) ");
@@ -169,7 +170,7 @@ public class CargarDatos {
         }
     }
 
-    private void cargarPieza(String encabezado, ArrayList<String> campos, int indice) throws MisExcepciones {
+    private void cargarPieza(ArrayList<String> campos) throws MisExcepciones {
         try {
             if (campos.size() != 2) {
                 throw new MisExcepciones("Es necesario ingresar (\"Tipo pieza\",\"precio\") ");
@@ -192,9 +193,9 @@ public class CargarDatos {
             if (!tipoPiezaDAO.existe(tipoPieza)) {
                 tipoPiezaDAO.insertar(modelo);
             }
-            
+
             tipoPiezaDAO.habilitar(tipoPieza);
-            
+
             modelo = tipoPiezaDAO.encontrar(modelo);
 
             int idTipoPieza = modelo.getIdTipoPieza();
@@ -208,7 +209,7 @@ public class CargarDatos {
         }
     }
 
-    private void cargarMueble(String encabezado, ArrayList<String> campos, int indice) throws MisExcepciones {
+    private void cargarMueble(ArrayList<String> campos) throws MisExcepciones {
 
         try {
 
@@ -238,12 +239,10 @@ public class CargarDatos {
 
         } catch (NumberFormatException ex) {
             throw new MisExcepciones("En el precio ingresa un numero decimal o un entero");
-        } catch (SQLException ex) {
-            System.err.println("Ha ocurrido un error con la base de datos");
         }
     }
 
-    private void cargarEnsamblePiezas(String encabezado, ArrayList<String> campos, int indice) throws MisExcepciones {
+    private void cargarEnsamblePiezas(ArrayList<String> campos) throws MisExcepciones {
         try {
             if (campos.size() != 3) {
                 throw new MisExcepciones("Es necesario ingresar (\"Mueble\",\"Pieza\",\"cantidad\")");
@@ -278,14 +277,12 @@ public class CargarDatos {
             EnsamblePieza modeloEnsamblePieza = new EnsamblePieza(tipoMueble, modeloTipoPieza.getIdTipoPieza(), cantidadPieza);
             ensamblePiezaDao.insertar(modeloEnsamblePieza);
 
-        } catch (SQLException ex) {
-            throw new MisExcepciones("Algo salio mal con la base de datos. Vuelve a intertarlo");
         } catch (NumberFormatException ex) {
             throw new MisExcepciones("En cantidad ingresa un numero entero");
         }
     }
 
-    private void cargarEnsamblarMueble(String encabezado, ArrayList<String> campos, int indice) throws MisExcepciones {
+    private void cargarEnsamblarMueble(ArrayList<String> campos) throws MisExcepciones {
         try {
 
             if (campos.size() != 3) {
@@ -296,7 +293,7 @@ public class CargarDatos {
             String ensamblador = campos.get(1);
             String fechaEnsamble = campos.get(2);
 
-            Funciones.formatearFecha(fechaEnsamble);
+            Funciones.formatearFechaEsAEn(fechaEnsamble);
 
             if (tipoMueble.length() > 45) {
                 throw new MisExcepciones("El nombre del mueble es muy largo. Max: 45 caracteres");
@@ -329,6 +326,10 @@ public class CargarDatos {
             ArrayList<EnsamblePieza> requerimientos = new ArrayList<>(ensamblePiezaDao.listar(modeloEnsamblePieza));
 
             TipoPiezaDao tipoPiezaDao = new TipoPiezaDao();
+            
+            if (requerimientos.isEmpty()) {
+                throw new MisExcepciones("No es posible ensamblar el mueble, ya que se desconoce como se debe construir");
+            }
 
             for (EnsamblePieza ep : requerimientos) {
                 TipoPieza modeloTipoPieza = new TipoPieza(ep.getIdTipoPieza());
@@ -339,6 +340,7 @@ public class CargarDatos {
             }
 
             PiezaDao piezaDao = new PiezaDao();
+            ArrayList<Integer> idPiezasUsadas = new ArrayList<>();
             double costo = 0;
             for (int i = 0; i < requerimientos.size(); i++) {
                 for (int j = 0; j < requerimientos.get(i).getCantidadPieza(); j++) {
@@ -346,6 +348,7 @@ public class CargarDatos {
                     modelo.setIdTipoPieza(requerimientos.get(i).getIdTipoPieza());
                     modelo = piezaDao.encotrarNoUsadosByIdTipoPieza(modelo);
                     int idPieza = modelo.getIdPieza();
+                    idPiezasUsadas.add(idPieza);
                     piezaDao.usarPieza(idPieza);
                     tipoPiezaDao.usarPieza(modelo.getIdTipoPieza());
                     costo += modelo.getPrecio();
@@ -353,72 +356,71 @@ public class CargarDatos {
             }
 
             EnsambleMuebleDao ensambleMuebleDao = new EnsambleMuebleDao();
-            EnsamblarMueble ensambleMueble = new EnsamblarMueble(tipoMueble, ensamblador, Funciones.formatearFecha(fechaEnsamble), costo);
+            EnsamblarMueble ensambleMueble = new EnsamblarMueble(tipoMueble, ensamblador, Funciones.formatearFechaEsAEn(fechaEnsamble), costo);
             ensambleMuebleDao.insertar(ensambleMueble);
+            
+            int idEnsamble = ensambleMuebleDao.obtenerIdUltimoEnviado();
+            
+            ArmadoDao armadoDao = new ArmadoDao();
+            for (int i = 0; i < idPiezasUsadas.size(); i++) {
+                armadoDao.insertar(new Armado(idPiezasUsadas.get(i), idEnsamble));
+            }
 
-        } catch (SQLException ex) {
-            throw new MisExcepciones("Algo salio mal en la base de datos. Vuelve a intertarlo");
         } catch (DateTimeException ex) {
             throw new MisExcepciones("El formato de fecha es incorrecto. Debes ingresarlo en este formato dd/MM/yyyy");
         }
-
     }
 
-    private void cargarCliente(String encabezado, ArrayList<String> campos, int indice) throws MisExcepciones {
-        try {
-            if (campos.size() != 3 && campos.size() != 5) {
-                throw new MisExcepciones("Es necesario ingresar (\"Nombre\",\"Nit\",\"direccion\")  o  (\"Nombre\",\"Nit\",\"direccion\",\"Municipio\",\"Departamento\")");
-            }
-
-            String nit = campos.get(1);
-            String nombre = campos.get(0);
-            String direccion = campos.get(2);
-            String municipio = "";
-            String departamento = "";
-
-            if (nombre.length() > 50) {
-                throw new MisExcepciones("El nombre es muy largo. Max: 45 caracteres");
-            }
-
-            if (nit.length() > 15) {
-                throw new MisExcepciones("El numero de nit, es muy largo");
-            }
-
-            ClienteDao clienteDao = new ClienteDao();
-            if (clienteDao.existe(nit)) {
-                throw new MisExcepciones("Este cliente ya existe");
-            }
-
-            if (direccion.length() > 50) {
-                throw new MisExcepciones("La direccion es muy larga. Max: 45 caracteres");
-            }
-
-            if (campos.size() == 5) {
-                municipio = campos.get(3);
-                departamento = campos.get(4);
-
-                if (municipio.length() > 50) {
-                    throw new MisExcepciones("El nombre del municipio es muy largo. Max: 45 caracteres");
-                }
-
-                if (departamento.length() > 50) {
-                    throw new MisExcepciones("El nombre del departamento es muy largo. Max: 45 caracteres");
-                }
-            }
-
-            Cliente modelo = null;
-
-            if (campos.size() == 5) {
-                modelo = new Cliente(nombre, nit, direccion, municipio, departamento);
-            } else if (campos.size() == 3) {
-                modelo = new Cliente(nombre, nit, direccion);
-            }
-
-            clienteDao.insertar(modelo);
-
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+    private void cargarCliente(ArrayList<String> campos) throws MisExcepciones {
+        if (campos.size() != 3 && campos.size() != 5) {
+            throw new MisExcepciones("Es necesario ingresar (\"Nombre\",\"Nit\",\"direccion\")  o  (\"Nombre\",\"Nit\",\"direccion\",\"Municipio\",\"Departamento\")");
         }
+
+        String nit = campos.get(1);
+        String nombre = campos.get(0);
+        String direccion = campos.get(2);
+        String municipio = "";
+        String departamento = "";
+
+        if (nombre.length() > 50) {
+            throw new MisExcepciones("El nombre es muy largo. Max: 45 caracteres");
+        }
+
+        if (nit.length() > 15) {
+            throw new MisExcepciones("El numero de nit, es muy largo");
+        }
+
+        ClienteDao clienteDao = new ClienteDao();
+        if (clienteDao.existe(nit)) {
+            throw new MisExcepciones("Este cliente ya existe");
+        }
+
+        if (direccion.length() > 50) {
+            throw new MisExcepciones("La direccion es muy larga. Max: 45 caracteres");
+        }
+
+        if (campos.size() == 5) {
+            municipio = campos.get(3);
+            departamento = campos.get(4);
+
+            if (municipio.length() > 50) {
+                throw new MisExcepciones("El nombre del municipio es muy largo. Max: 45 caracteres");
+            }
+
+            if (departamento.length() > 50) {
+                throw new MisExcepciones("El nombre del departamento es muy largo. Max: 45 caracteres");
+            }
+        }
+
+        Cliente modelo = null;
+
+        if (campos.size() == 5) {
+            modelo = new Cliente(nombre, nit, direccion, municipio, departamento);
+        } else if (campos.size() == 3) {
+            modelo = new Cliente(nombre, nit, direccion);
+        }
+
+        clienteDao.insertar(modelo);
     }
 
     public String getErrores() {

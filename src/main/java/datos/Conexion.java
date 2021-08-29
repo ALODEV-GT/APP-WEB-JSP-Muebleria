@@ -1,5 +1,6 @@
 package datos;
 
+import dominio.cargarDatos.MisExcepciones;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,31 +29,35 @@ public class Conexion {
         return dataSource;
     }
 
-    public static Connection getConnection() throws SQLException {
-        return getDataSource().getConnection();
+    public static Connection getConnection() throws MisExcepciones {
+        try {
+            return getDataSource().getConnection();
+        } catch (SQLException ex) {
+            throw new MisExcepciones("Algo salio mal con la base de datos, vuelve a intentarlo");
+        }
     }
 
-    public static void close(ResultSet rs) {
+    public static void close(ResultSet rs) throws MisExcepciones {
         try {
             rs.close();
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            throw new MisExcepciones("Algo salio mal al cerrar un recurso");
         }
     }
 
-    public static void close(PreparedStatement stmt) {
+    public static void close(PreparedStatement stmt) throws MisExcepciones {
         try {
             stmt.close();
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            throw new MisExcepciones("Algo salio mal al cerrar un recurso");
         }
     }
 
-    public static void close(Connection conn) {
+    public static void close(Connection conn) throws MisExcepciones {
         try {
             conn.close();
         } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
+            throw new MisExcepciones("Algo salio mal al cerrar la conexion");
         }
     }
 
