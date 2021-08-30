@@ -66,7 +66,6 @@ public class ClienteDao implements Sentencias<Cliente> {
             Conexion.close(stmt);
             Conexion.close(conn);
         }
-
         return modelo;
     }
 

@@ -1,19 +1,55 @@
 package dominio.clases;
 
+import java.util.List;
+
 public class Factura {
 
     private int numFactura;
     private String nitCliente;
+    private String nombreCliente;
     private String fecha;
     private String vendedor;
+    private List<Detalle> detalles;
+    private double total;
+
+    public Factura(int numFactura, String nitCliente, String nombreCliente, String fecha, String vendedor, double total) {
+        this.numFactura = numFactura;
+        this.nitCliente = nitCliente;
+        this.nombreCliente = nombreCliente;
+        this.fecha = fecha;
+        this.vendedor = vendedor;
+        this.total = total;
+    }
 
     public Factura(String nitCliente, String fecha, String vendedor) {
         this.nitCliente = nitCliente;
         this.fecha = fecha;
         this.vendedor = vendedor;
     }
-    
-    
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public List<Detalle> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(List<Detalle> detalles) {
+        this.detalles = detalles;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
 
     public int getNumFactura() {
         return numFactura;
@@ -46,7 +82,5 @@ public class Factura {
     public void setVendedor(String vendedor) {
         this.vendedor = vendedor;
     }
-    
-    
 
 }

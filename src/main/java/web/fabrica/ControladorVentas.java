@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +27,51 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ControladorVentas {
+
+    public void consultasGet(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones {
+        String consultaVenta = request.getParameter("consultaVenta");
+
+        try {
+            switch (consultaVenta) {
+                case "compraClientes":
+                    request.getRequestDispatcher("/WEB-INF/paginas/venta/compras-clientes.jsp").forward(request, response);
+                    break;
+                case "devolucionClientes":
+                    request.getRequestDispatcher("/WEB-INF/paginas/venta/devolucion-clientes.jsp").forward(request, response);
+                    break;
+                case "detalleFacturas":
+                    this.detalleFacturas(request, response);
+                    break;
+                case "ventasDiarias":
+                    this.ventasDiarias(request, response);
+                    break;
+            }
+        } catch (ServletException | IOException ex) {
+            throw new MisExcepciones("Ocurrio un error al intentar mostrar la pagina");
+        }
+    }
+
+    public void ventasDiarias(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
+        String fecha = request.getParameter("dia");
+
+        String fechaHoy = LocalDate.now().toString();
+
+        if (fecha == null) {
+            fecha = fechaHoy;
+        }
+
+        List<Detalle> detalles = new DetalleDao().obtenerVentasDia(fecha);
+
+        double total = 0;
+        for (Detalle d : detalles) {
+            total += d.getPrecio();
+        }
+
+        request.setAttribute("detalles", detalles);
+        request.setAttribute("total", total);
+        request.setAttribute("fechaHoy", fecha);
+        request.getRequestDispatcher("/WEB-INF/paginas/venta/ventas-diarias.jsp").forward(request, response);
+    }
 
     public void ventasPaginas(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones {
         String paginaVentas = request.getParameter("paginaVenta");
@@ -71,11 +115,51 @@ public class ControladorVentas {
                 case "devolver":
                     this.devolverMueble(request, response);
                     break;
+                case "buscarVentasDia":
+                    this.ventasDiarias(request, response);
+                case "detalleFacturas":
+                    this.detalleFacturas(request, response);
             }
         } catch (ServletException | IOException ex) {
             ex.printStackTrace(System.out);
             throw new MisExcepciones("Ocurrio un error al intentar mostrar la pagina");
         }
+    }
+
+    public void detalleFacturas(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
+        String nitCliente = request.getParameter("nitCliente");
+
+        int numFactura = 0;
+        try {
+            numFactura = Integer.valueOf(request.getParameter("numFactura"));
+        } catch (NumberFormatException ex) {
+            numFactura = 0;
+        }
+        
+        System.out.println("nitCliente: " + nitCliente);
+        System.out.println("num factura: " + numFactura);
+
+        if (nitCliente == null) {
+            nitCliente = "";
+        }
+        
+        List<Factura> facturas = new ArrayList<>();
+        FacturaDao facturaDao = new FacturaDao();
+        
+        if (nitCliente.isBlank() && numFactura == 0) {
+           facturas = facturaDao.listar();
+        }else if (nitCliente.isBlank()) {
+           facturas = facturaDao.listarByNumFactura(numFactura);
+        }else{
+            facturas = facturaDao.listarByNitCliente(nitCliente);
+        }
+        
+        for(Factura f: facturas){
+            f.setDetalles(new DetalleDao().obtenerDetalleFactura(f.getNumFactura()));
+        }
+
+        request.setAttribute("facturas", facturas);
+        request.getRequestDispatcher("/WEB-INF/paginas/venta/detalle-facturas.jsp").forward(request, response);
     }
 
     public void ventasAccionesGET(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones {
@@ -108,7 +192,7 @@ public class ControladorVentas {
             throw new MisExcepciones("Debes llenar los campos");
         }
 
-        Cliente cliente = new Cliente();
+        Cliente cliente = new Cliente(nit);
         ClienteDao clienteDao = new ClienteDao();
         if (clienteDao.existe(nit)) {
             clienteDao.encontrar(cliente);
@@ -138,13 +222,22 @@ public class ControladorVentas {
         DetalleDao detalleDao = new DetalleDao();
 
         int contador = 1;
+        double total = 0;
         for (Integer id : idsMuebles) {
             double precio = new EnsambleMuebleDao().obtenerPrecio(id);
             ensambleMuebleDao.venderMueble(id);
+            total += precio;
             detalleDao.insertar(new Detalle(contador++, numFactura, id, precio));
         }
+        
+        facturaDao.agregarTotal(total, numFactura);
 
-        this.inicio(request, response);
+        List<Detalle> detalles = new DetalleDao().obtenerDetalleFactura(numFactura);
+        Cliente infoCliente = new ClienteDao().encontrar(new Cliente(nit));
+        request.setAttribute("clienteF", infoCliente);
+        request.setAttribute("detalles", detalles);
+        request.setAttribute("total", total);
+        request.getRequestDispatcher("/WEB-INF/paginas/venta/factura.jsp").forward(request, response);
     }
 
     private Set<Integer> obtenerIdMueblesAComprar(String cadena) throws MisExcepciones {
@@ -171,13 +264,11 @@ public class ControladorVentas {
         if (clienteDao.existe(nit)) {
             Cliente cliente = new Cliente(nit);
             clienteDao.encontrar(cliente);
-            HttpSession sesion = request.getSession();
-            sesion.setAttribute("cliente", cliente);
+            request.setAttribute("cliente", cliente);
             this.inicio(request, response);
         } else {
             Cliente cliente = new Cliente(nit);
-            HttpSession sesion = request.getSession();
-            sesion.setAttribute("cliente", cliente);
+            request.setAttribute("cliente", cliente);
             this.inicio(request, response);
         }
     }

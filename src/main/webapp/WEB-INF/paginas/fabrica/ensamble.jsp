@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.time.LocalDate" %>
 <jsp:include page="/WEB-INF/paginas/comunes/encabezado.jsp"/>
 <jsp:include page="/WEB-INF/paginas/fabrica/menu.jsp"/>
 <h3>ENSAMBLE</h3>
@@ -18,7 +19,7 @@
             <tr>
                 <td>
                     <form action="${pageContext.request.contextPath}/ServletControlador?accionFabrica=ensamblarMueble&idMuebleEnsamblar=${recetas.nombre.toUpperCase()}&usuario=${nombreUsuario}" method="POST">
-                        <input type="date" name="fechaEnsamble" value="2021-09-06"/>
+                        <input type="date" name="fechaEnsamble" value="${LocalDate.now().toString()}"/>
                         <input type="submit" value="Ensamblar"/>  
                     </form>
                 </td>

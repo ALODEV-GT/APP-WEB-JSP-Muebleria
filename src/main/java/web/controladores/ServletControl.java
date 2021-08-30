@@ -22,9 +22,11 @@ public class ServletControl extends HttpServlet {
         String accion = request.getParameter("accion");
         String accionFabrica = request.getParameter("accionFabrica");
         String paginaVentas = request.getParameter("paginaVenta");
-
+        String consultaVenta = request.getParameter("consultaVenta");
+        
         try {
-            if (paginaFabrica == null && accion == null && accionFabrica == null && paginaVentas == null) {
+            if (paginaFabrica == null && accion == null && accionFabrica == null && paginaVentas == null
+                    && consultaVenta == null) {
                 response.sendRedirect("publicas/login.jsp");
             } else if (paginaFabrica != null) {
                 ControladorFabrica controladorFabrica = new ControladorFabrica();
@@ -32,6 +34,9 @@ public class ServletControl extends HttpServlet {
             } else if (paginaVentas != null) {
                 ControladorVentas controladorVentas = new ControladorVentas();
                 controladorVentas.ventasPaginas(request, response);
+            }else if (consultaVenta != null) {
+                ControladorVentas controladorVentas = new ControladorVentas();
+                controladorVentas.consultasGet(request, response);
             } else if (accion != null) {
 
                 switch (accion) {
