@@ -4,36 +4,39 @@
 
 <h1> DEVOLUCION CLIENTES </h1>
 
-<form action="" method="POST">
+<form action="${pageContext.request.contextPath}/ServletControlador?accionVentas=devolucionesClientes" method="POST">
     <label>Nit</label>
-    <input type="text" name="nitCliente"/>
+    <input type="text" name="nitCliente" value="${nitCliente}"/>
     <label>Fecha inicial</label>
-    <input type="date" name="fechaInicial"/>
+    <input type="date" name="fechaInicial" value="${fechaInicial}"/>
     <label>Fecha final</label>
-    <input type="date" name="fechaFinal"/>
+    <input type="date" name="fechaFinal" value="${fechaFinal}"/>
     <input type="submit"  value="Mostrar"/>
-    <input type ="submit" value="Mostrar todo" />
 </form>
 
-<c:forEach var=" " items="">
-    
-</c:forEach>
+
 <table>
     <thead>
         <tr>
-            <th>Fecha</th>
             <th># Factura </th>
-            <th>Id. Producto</th>
+            <th>Nombre del cliente</th>
+            <th>Nit</th>
+            <th>Fecha devolucion</th>
+            <th>Id. Proucto</th>
             <th>Producto </th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>fecha</td>
-            <td>numFactura</td>
-            <td>idProdu</td>
-            <td>producto</td>
-        </tr>
+        <c:forEach var="devoluciones" items="${devoluciones}">
+            <tr>
+                <td>${devoluciones.numFactura}</td>
+                <td>${devoluciones.nombreCliente}</td>
+                <td>${devoluciones.nitCliente}</td>
+                <td>${devoluciones.fecha}</td>
+                <td>${devoluciones.idDevolucion}</td>
+                <td>${devoluciones.productoDevuelto}</td>
+            </tr>
+        </c:forEach>
     </tbody>
 </table>
 

@@ -34,9 +34,13 @@ public class ControladorVentas {
         try {
             switch (consultaVenta) {
                 case "compraClientes":
+                    request.setAttribute("fechaInicial", LocalDate.now().toString());
+                    request.setAttribute("fechaFinal", LocalDate.now().toString());
                     request.getRequestDispatcher("/WEB-INF/paginas/venta/compras-clientes.jsp").forward(request, response);
                     break;
                 case "devolucionClientes":
+                    request.setAttribute("fechaInicial", LocalDate.now().toString());
+                    request.setAttribute("fechaFinal", LocalDate.now().toString());
                     request.getRequestDispatcher("/WEB-INF/paginas/venta/devolucion-clientes.jsp").forward(request, response);
                     break;
                 case "detalleFacturas":
@@ -119,11 +123,71 @@ public class ControladorVentas {
                     this.ventasDiarias(request, response);
                 case "detalleFacturas":
                     this.detalleFacturas(request, response);
+                case "comprasClientes":
+                    this.comprasClientes(request, response);
+                case "devolucionesClientes":
+                    this.devolucionesClientes(request, response);
             }
         } catch (ServletException | IOException ex) {
             ex.printStackTrace(System.out);
             throw new MisExcepciones("Ocurrio un error al intentar mostrar la pagina");
         }
+    }
+
+    private void devolucionesClientes(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
+        String nitCliente = request.getParameter("nitCliente");
+        String fechaInicial = request.getParameter("fechaInicial");
+        String fechaFinal = request.getParameter("fechaFinal");
+
+        List<Devolucion> devoluciones = new ArrayList<>();
+        if (nitCliente.isBlank()) {
+            nitCliente = "";
+            devoluciones = new DevolucionDao().obtenerAllDevoluciones();
+            fechaInicial = LocalDate.now().toString();
+            fechaFinal = LocalDate.now().toString();
+        } else {
+            devoluciones = new DevolucionDao().obtenerDevolucionesByNitAndFecha(nitCliente, fechaInicial, fechaFinal);
+        }
+
+        request.setAttribute("fechaInicial", fechaInicial);
+        request.setAttribute("fechaFinal", fechaFinal);
+        request.setAttribute("nitCliente", nitCliente);
+        request.setAttribute("devoluciones", devoluciones);
+        request.getRequestDispatcher("/WEB-INF/paginas/venta/devolucion-clientes.jsp").forward(request, response);
+    }
+
+    private void comprasClientes(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
+        String nitCliente = request.getParameter("nitCliente");
+        String fechaInicial = request.getParameter("fechaInicial");
+        String fechaFinal = request.getParameter("fechaFinal");
+
+        List<Factura> facturas = new ArrayList<>();
+        if (nitCliente.isBlank()) {
+            nitCliente = "";
+            facturas = new FacturaDao().listar();
+            fechaInicial = LocalDate.now().toString();
+            fechaFinal = LocalDate.now().toString();
+        } else {
+            facturas = new FacturaDao().listarByIntervaloFechas(fechaInicial, fechaFinal, nitCliente);
+        }
+
+        for (Factura f : facturas) {
+            f.setDetalles(new DetalleDao().obtenerDetalleFactura(f.getNumFactura()));
+        }
+
+        double total = 0;
+        for (int i = 0; i < facturas.size(); i++) {
+            for (int j = 0; j < facturas.get(i).getDetalles().size(); j++) {
+                total += facturas.get(i).getDetalles().get(j).getPrecio();
+            }
+        }
+
+        request.setAttribute("fechaInicial", fechaInicial);
+        request.setAttribute("fechaFinal", fechaFinal);
+        request.setAttribute("nitCliente", nitCliente);
+        request.setAttribute("total", total);
+        request.setAttribute("facturas", facturas);
+        request.getRequestDispatcher("/WEB-INF/paginas/venta/compras-clientes.jsp").forward(request, response);
     }
 
     public void detalleFacturas(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
@@ -135,26 +199,23 @@ public class ControladorVentas {
         } catch (NumberFormatException ex) {
             numFactura = 0;
         }
-        
-        System.out.println("nitCliente: " + nitCliente);
-        System.out.println("num factura: " + numFactura);
 
         if (nitCliente == null) {
             nitCliente = "";
         }
-        
+
         List<Factura> facturas = new ArrayList<>();
         FacturaDao facturaDao = new FacturaDao();
-        
+
         if (nitCliente.isBlank() && numFactura == 0) {
-           facturas = facturaDao.listar();
-        }else if (nitCliente.isBlank()) {
-           facturas = facturaDao.listarByNumFactura(numFactura);
-        }else{
+            facturas = facturaDao.listar();
+        } else if (nitCliente.isBlank()) {
+            facturas = facturaDao.listarByNumFactura(numFactura);
+        } else {
             facturas = facturaDao.listarByNitCliente(nitCliente);
         }
-        
-        for(Factura f: facturas){
+
+        for (Factura f : facturas) {
             f.setDetalles(new DetalleDao().obtenerDetalleFactura(f.getNumFactura()));
         }
 
@@ -229,7 +290,7 @@ public class ControladorVentas {
             total += precio;
             detalleDao.insertar(new Detalle(contador++, numFactura, id, precio));
         }
-        
+
         facturaDao.agregarTotal(total, numFactura);
 
         List<Detalle> detalles = new DetalleDao().obtenerDetalleFactura(numFactura);
@@ -322,7 +383,7 @@ public class ControladorVentas {
 
         DevolucionDao devolucionDao = new DevolucionDao();
         double perdida = ensamblarMueble.getCosto() * 0.3333;
-        devolucionDao.insertar(new Devolucion(numFactura, LocalDate.now().toString(), perdida));
+        devolucionDao.insertar(new Devolucion(idEnsamble, numFactura, LocalDate.now().toString(), perdida));
 
         request.getRequestDispatcher("/WEB-INF/paginas/venta/devolucion.jsp").forward(request, response);
     }

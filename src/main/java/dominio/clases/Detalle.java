@@ -8,7 +8,8 @@ public class Detalle {
     private double precio;
     private String nombreProducto;
     private String fechaCompra;
-
+    
+    
     public Detalle(int numFactura, int idEnsamble, double precio, String nombreProducto, String fechaCompra) {
         this.numFactura = numFactura;
         this.idEnsamble = idEnsamble;

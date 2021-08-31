@@ -1,5 +1,6 @@
 package datos;
 
+import dominio.cargarDatos.Funciones;
 import dominio.cargarDatos.MisExcepciones;
 import dominio.clases.Factura;
 import java.sql.Connection;
@@ -15,13 +16,49 @@ public class FacturaDao implements Sentencias<Factura> {
     private static final String SQL_SELECCIONAR_ULTIMO = "SELECT num_factura FROM factura ORDER BY num_factura DESC LIMIT 1";
     private static final String SQL_ENCONTRAR_BY_NUM_FACTURA = "SELECT * FROM factura WHERE num_factura=?";
     private static final String SQL_INFO_ALL_FACTURA = "SELECT f.num_factura, c.nombre, f.nit_cliente, f.fecha, f.vendedor, f.total FROM factura f JOIN cliente c ON(f.nit_cliente=c.nit) ";
-    private static final String SQL_SELECT_BY_NUM_FACTURA= "SELECT f.num_factura, c.nombre, f.nit_cliente, f.fecha, f.vendedor, f.total FROM factura f JOIN cliente c ON(f.nit_cliente=c.nit) WHERE f.num_factura=?";
-    private static final String SQL_SELECT_BY_NIT_CLIENTE= "SELECT f.num_factura, c.nombre, f.nit_cliente, f.fecha, f.vendedor, f.total FROM factura f JOIN cliente c ON(f.nit_cliente=c.nit) WHERE f.nit_cliente=?";
+    private static final String SQL_SELECT_BY_NUM_FACTURA = "SELECT f.num_factura, c.nombre, f.nit_cliente, f.fecha, f.vendedor, f.total FROM factura f JOIN cliente c ON(f.nit_cliente=c.nit) WHERE f.num_factura=?";
+    private static final String SQL_SELECT_BY_NIT_CLIENTE = "SELECT f.num_factura, c.nombre, f.nit_cliente, f.fecha, f.vendedor, f.total FROM factura f JOIN cliente c ON(f.nit_cliente=c.nit) WHERE f.nit_cliente=?";
     private static final String SQL_AGREGAR_TOTAL = "UPDATE factura SET total=? WHERE num_factura = ?";
-    
-    
-    public List<Factura> listarByNumFactura(int numFactura)throws MisExcepciones{
-         Connection conn = null;
+    private static final String SQL_SELECT_BY_NIT_CLIENTES_AND_FECHAS = "SELECT f.num_factura, c.nombre, f.nit_cliente, f.fecha, f.vendedor, f.total FROM factura f JOIN cliente c ON(f.nit_cliente=c.nit) WHERE f.fecha BETWEEN ? AND ? AND f.nit_cliente=? ORDER BY f.fecha DESC";
+
+    public List<Factura> listarByIntervaloFechas(String fechaInicial, String fechaFinal, String nitCliente) throws MisExcepciones {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Factura> facturas = new ArrayList<>();
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_SELECT_BY_NIT_CLIENTES_AND_FECHAS);
+            stmt.setString(1, fechaInicial);
+            stmt.setString(2, fechaFinal);
+            stmt.setString(3, nitCliente);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int numFactura = rs.getInt("f.num_factura");
+                String nombreCliente = rs.getString("c.nombre");
+                String nit = rs.getString("f.nit_cliente");
+                String fecha = rs.getString("f.fecha");
+                String vendedor = rs.getString("f.vendedor");
+                double total = rs.getDouble("f.total");
+
+                Factura factura = new Factura(numFactura, nit, nombreCliente, Funciones.formatearFechaEnAEs(fecha), vendedor, total);
+                facturas.add(factura);
+            }
+
+        } catch (SQLException ex) {
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return facturas;
+    }
+
+    public List<Factura> listarByNumFactura(int numFactura) throws MisExcepciones {
+        Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Factura> facturas = new ArrayList<>();
@@ -39,7 +76,7 @@ public class FacturaDao implements Sentencias<Factura> {
                 String vendedor = rs.getString("f.vendedor");
                 double total = rs.getDouble("f.total");
 
-                Factura factura = new Factura(numFactura, nit, nombreCliente, fecha, vendedor, total);
+                Factura factura = new Factura(numFactura, nit, nombreCliente, Funciones.formatearFechaEnAEs(fecha), vendedor, total);
                 facturas.add(factura);
             }
 
@@ -52,9 +89,9 @@ public class FacturaDao implements Sentencias<Factura> {
         }
         return facturas;
     }
-    
-    public List<Factura> listarByNitCliente(String nitCliente)throws MisExcepciones{
-         Connection conn = null;
+
+    public List<Factura> listarByNitCliente(String nitCliente) throws MisExcepciones {
+        Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Factura> facturas = new ArrayList<>();
@@ -73,7 +110,7 @@ public class FacturaDao implements Sentencias<Factura> {
                 String vendedor = rs.getString("f.vendedor");
                 double total = rs.getDouble("f.total");
 
-                Factura factura = new Factura(numFactura, nit, nombreCliente, fecha, vendedor, total);
+                Factura factura = new Factura(numFactura, nit, nombreCliente, Funciones.formatearFechaEnAEs(fecha), vendedor, total);
                 facturas.add(factura);
             }
 
@@ -86,9 +123,8 @@ public class FacturaDao implements Sentencias<Factura> {
         }
         return facturas;
     }
-    
-    
-    public void agregarTotal(double total, int numFactura) throws MisExcepciones{
+
+    public void agregarTotal(double total, int numFactura) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -100,13 +136,13 @@ public class FacturaDao implements Sentencias<Factura> {
 
             stmt.executeUpdate();
         } catch (SQLException ex) {
-             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
             Conexion.close(conn);
         }
     }
-    
+
     public int obtenerNumFactura() throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -191,7 +227,7 @@ public class FacturaDao implements Sentencias<Factura> {
                 String vendedor = rs.getString("f.vendedor");
                 double total = rs.getDouble("f.total");
 
-                Factura factura = new Factura(numFactura, nit, nombreCliente, fecha, vendedor, total);
+                Factura factura = new Factura(numFactura, nit, nombreCliente,Funciones.formatearFechaEnAEs(fecha), vendedor, total);
                 facturas.add(factura);
             }
 
