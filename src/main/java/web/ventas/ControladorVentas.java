@@ -1,4 +1,4 @@
-package web.fabrica;
+package web.ventas;
 
 import datos.ArmadoDao;
 import datos.ClienteDao;
@@ -55,7 +55,7 @@ public class ControladorVentas {
         }
     }
 
-    public void ventasDiarias(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
+    private void ventasDiarias(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
         String fecha = request.getParameter("dia");
 
         String fechaHoy = LocalDate.now().toString();

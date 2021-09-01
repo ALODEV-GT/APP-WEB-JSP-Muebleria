@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import web.administracion.ControladorAdministracion;
 import web.fabrica.ControladorFabrica;
-import web.fabrica.ControladorVentas;
+import web.ventas.ControladorVentas;
 
 @WebServlet("/ServletControlador")
 public class ServletControl extends HttpServlet {
@@ -23,10 +24,13 @@ public class ServletControl extends HttpServlet {
         String accionFabrica = request.getParameter("accionFabrica");
         String paginaVentas = request.getParameter("paginaVenta");
         String consultaVenta = request.getParameter("consultaVenta");
+        String paginasAdministracion = request.getParameter("paginaAdministracion");
+        String consultasAdministracion = request.getParameter("consultasAdministracion");
         
         try {
             if (paginaFabrica == null && accion == null && accionFabrica == null && paginaVentas == null
-                    && consultaVenta == null) {
+                    && consultaVenta == null && paginasAdministracion == null
+                    && consultasAdministracion == null) {
                 response.sendRedirect("publicas/login.jsp");
             } else if (paginaFabrica != null) {
                 ControladorFabrica controladorFabrica = new ControladorFabrica();
@@ -37,6 +41,12 @@ public class ServletControl extends HttpServlet {
             }else if (consultaVenta != null) {
                 ControladorVentas controladorVentas = new ControladorVentas();
                 controladorVentas.consultasGet(request, response);
+            }else if (paginasAdministracion != null) {
+                ControladorAdministracion controladorAdmin = new ControladorAdministracion();
+                controladorAdmin.administracionPaginas(request, response);
+            }else if (consultasAdministracion != null) {
+                ControladorAdministracion controladorAdmin = new ControladorAdministracion();
+                controladorAdmin.administracionConsultasGet(request, response);
             } else if (accion != null) {
 
                 switch (accion) {
