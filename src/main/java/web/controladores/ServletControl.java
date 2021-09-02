@@ -71,6 +71,8 @@ public class ServletControl extends HttpServlet {
         String accion = request.getParameter("accion");
         String accionFabrica = request.getParameter("accionFabrica");
         String accionVentas = request.getParameter("accionVentas");
+        String accionAdministracion = request.getParameter("accionAdministracion");
+        
         try {
             if (accion != null) {
                 switch (accion) {
@@ -87,6 +89,9 @@ public class ServletControl extends HttpServlet {
             }else if (accionVentas != null ) {
                 ControladorVentas controladorVentas = new ControladorVentas();
                 controladorVentas.ventasAccionesPost(request, response);
+            }else if (accionAdministracion != null ) {
+                ControladorAdministracion controladorAdmin = new ControladorAdministracion();
+                controladorAdmin.administracionAccionesPost(request, response);
             }
         } catch (MisExcepciones ex) {
             request.setAttribute("mensaje", ex.getMessage());

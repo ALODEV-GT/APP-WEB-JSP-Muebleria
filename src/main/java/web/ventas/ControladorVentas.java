@@ -121,12 +121,16 @@ public class ControladorVentas {
                     break;
                 case "buscarVentasDia":
                     this.ventasDiarias(request, response);
+                    break;
                 case "detalleFacturas":
                     this.detalleFacturas(request, response);
+                    break;
                 case "comprasClientes":
                     this.comprasClientes(request, response);
+                    break;
                 case "devolucionesClientes":
                     this.devolucionesClientes(request, response);
+                    break;
             }
         } catch (ServletException | IOException ex) {
             ex.printStackTrace(System.out);
