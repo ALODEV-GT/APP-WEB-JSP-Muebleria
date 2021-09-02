@@ -270,12 +270,16 @@ public class CargarDatos {
                 throw new MisExcepciones("Primero debes crear la pieza para asignarlo a un mueble");
             }
 
-            TipoPieza modeloTipoPieza = new TipoPieza(pieza);
-            modeloTipoPieza = tipoPiezaDao.encontrar(modeloTipoPieza);
-
             EnsamblePiezaDao ensamblePiezaDao = new EnsamblePiezaDao();
-            EnsamblePieza modeloEnsamblePieza = new EnsamblePieza(tipoMueble, modeloTipoPieza.getIdTipoPieza(), cantidadPieza);
-            ensamblePiezaDao.insertar(modeloEnsamblePieza);
+            if (ensamblePiezaDao.existe(tipoMueble, pieza)) {
+                ensamblePiezaDao.sobrescribirCantidadRequerimiento(cantidadPieza, tipoMueble, pieza);
+            } else {
+                TipoPieza modeloTipoPieza = new TipoPieza(pieza);
+                modeloTipoPieza = tipoPiezaDao.encontrar(modeloTipoPieza);
+
+                EnsamblePieza modeloEnsamblePieza = new EnsamblePieza(tipoMueble, modeloTipoPieza.getIdTipoPieza(), cantidadPieza);
+                ensamblePiezaDao.insertar(modeloEnsamblePieza);
+            }
 
         } catch (NumberFormatException ex) {
             throw new MisExcepciones("En cantidad ingresa un numero entero");
@@ -326,7 +330,7 @@ public class CargarDatos {
             ArrayList<EnsamblePieza> requerimientos = new ArrayList<>(ensamblePiezaDao.listar(modeloEnsamblePieza));
 
             TipoPiezaDao tipoPiezaDao = new TipoPiezaDao();
-            
+
             if (requerimientos.isEmpty()) {
                 throw new MisExcepciones("No es posible ensamblar el mueble, ya que se desconoce como se debe construir");
             }
@@ -358,9 +362,9 @@ public class CargarDatos {
             EnsambleMuebleDao ensambleMuebleDao = new EnsambleMuebleDao();
             EnsamblarMueble ensambleMueble = new EnsamblarMueble(tipoMueble, ensamblador, Funciones.formatearFechaEsAEn(fechaEnsamble), costo);
             ensambleMuebleDao.insertar(ensambleMueble);
-            
+
             int idEnsamble = ensambleMuebleDao.obtenerIdUltimoEnviado();
-            
+
             ArmadoDao armadoDao = new ArmadoDao();
             for (int i = 0; i < idPiezasUsadas.size(); i++) {
                 armadoDao.insertar(new Armado(idPiezasUsadas.get(i), idEnsamble));

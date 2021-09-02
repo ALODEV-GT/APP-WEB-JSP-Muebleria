@@ -14,6 +14,8 @@ public class MuebleDao implements Sentencias<Mueble> {
     private static final String SQL_INSERT = "INSERT INTO mueble(tipo_mueble, precio) VALUES(?,?)";
     private static final String SQL_SELECT_BY_NOMBRE = "SELECT * FROM mueble WHERE tipo_mueble=?";
     private static final String SQL_SELECT = "SELECT * FROM mueble";
+    private static final String SQL_UPDATE_PRECIO = "UPDATE mueble SET precio=? WHERE tipo_mueble=?";
+    
 
     @Override
     public Mueble encontrar(Mueble modelo) throws MisExcepciones {
@@ -102,8 +104,25 @@ public class MuebleDao implements Sentencias<Mueble> {
     }
 
     @Override
-    public int actualizar(Mueble modelo) {
-        return 0;
+    public int actualizar(Mueble modelo) throws MisExcepciones {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        int numModificados = 0;
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_UPDATE_PRECIO);
+            stmt.setDouble(1, modelo.getPrecio());
+            stmt.setString(2, modelo.getNombre());
+
+            numModificados = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return numModificados;
     }
 
     @Override

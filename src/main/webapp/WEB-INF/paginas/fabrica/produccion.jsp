@@ -11,7 +11,7 @@
         <c:forEach var="ensamblesMueble" items="${ensamblesMueble}">
             <tr><td>${ensamblesMueble.tipoMueble.toUpperCase()}<td></tr>
             <tr>
-                <td>Este mueble fue ensamblado el ${ensamblesMueble.fechaEnsambre} por el fabricador ${ensamblesMueble.ensamblador} , y se utilizaron las siguientes piezas:</td>
+                <td>A este mueble se le asigno el Id. de producto ${ensamblesMueble.idEnsamble} y fue ensamblado el ${ensamblesMueble.fechaEnsambre} por el fabricador ${ensamblesMueble.ensamblador} , y se utilizaron las siguientes piezas:</td>
             </tr>
             <c:forEach var="piezasUsadas" items="${ensamblesMueble.piezasUsadas}">
                 <tr>

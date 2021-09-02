@@ -7,6 +7,14 @@ public class Usuario {
     private String password;
     private String area;
 
+    
+    
+    
+    public Usuario(int idArea, String nombre) {
+        this.idArea = idArea;
+        this.nombre = nombre;
+    }
+    
     public Usuario() {
     }
 

@@ -26,11 +26,12 @@ public class ServletControl extends HttpServlet {
         String consultaVenta = request.getParameter("consultaVenta");
         String paginasAdministracion = request.getParameter("paginaAdministracion");
         String consultasAdministracion = request.getParameter("consultasAdministracion");
+        String accionAdministracion = request.getParameter("accionAdministracion");
         
         try {
             if (paginaFabrica == null && accion == null && accionFabrica == null && paginaVentas == null
                     && consultaVenta == null && paginasAdministracion == null
-                    && consultasAdministracion == null) {
+                    && consultasAdministracion == null && accionAdministracion == null) {
                 response.sendRedirect("publicas/login.jsp");
             } else if (paginaFabrica != null) {
                 ControladorFabrica controladorFabrica = new ControladorFabrica();
@@ -47,6 +48,9 @@ public class ServletControl extends HttpServlet {
             }else if (consultasAdministracion != null) {
                 ControladorAdministracion controladorAdmin = new ControladorAdministracion();
                 controladorAdmin.administracionConsultasGet(request, response);
+            }else if (accionAdministracion != null) {
+                ControladorAdministracion controladorAdmin = new ControladorAdministracion();
+                controladorAdmin.administracionAccionesGet(request, response);
             } else if (accion != null) {
 
                 switch (accion) {
@@ -123,6 +127,10 @@ public class ServletControl extends HttpServlet {
         UsuarioDao usuarioDao = new UsuarioDao();
         if (!usuarioDao.existe(nombreUsuario)) {
             throw new MisExcepciones("El usuario no existe");
+        }
+        
+        if (usuarioDao.estaDeshabilitado(nombreUsuario)) {
+            throw new MisExcepciones("A este usuario se le a denegado el acceso al sistema");
         }
 
         usuario = new UsuarioDao().encontrar(usuario);

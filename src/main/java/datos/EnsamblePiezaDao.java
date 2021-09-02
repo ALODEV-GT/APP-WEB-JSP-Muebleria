@@ -13,7 +13,58 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
 
     private static final String SQL_INSERT = "INSERT INTO requerimiento(tipo_mueble,id_tipo_pieza,cantidad_necesaria) VALUES(?,?,?)";
     private static final String SQL_SELEC_BY_TIPO_MUEBLE = "SELECT * FROM requerimiento WHERE tipo_mueble = ?";
-    private static final String SQL_LISTAR_SEGUN_TIPO_MUEBLE = "SELECT tp.nombre, r.cantidad_necesaria FROM requerimiento r JOIN tipo_pieza tp ON(r.id_tipo_pieza=tp.id_tipo_pieza) WHERE r.tipo_mueble=?";                                                                              
+    private static final String SQL_LISTAR_SEGUN_TIPO_MUEBLE = "SELECT tp.nombre, r.cantidad_necesaria FROM requerimiento r JOIN tipo_pieza tp ON(r.id_tipo_pieza=tp.id_tipo_pieza) WHERE r.tipo_mueble=?";
+    private static final String SQL_BUSCAR_REQUERIMIENTO = "SELECT r.tipo_mueble, r.cantidad_necesaria, tp.nombre FROM requerimiento r JOIN tipo_pieza tp ON(r.id_tipo_pieza=tp.id_tipo_pieza) WHERE r.tipo_mueble=? AND tp.nombre=?";
+    private static final String SQL_SOBREESCRIBIR_REQUERIMIENTO = "UPDATE requerimiento r JOIN tipo_pieza tp SET r.cantidad_necesaria=? WHERE r.tipo_mueble=? AND tp.nombre=?";
+
+    public int sobrescribirCantidadRequerimiento(int nuevaCantidad, String mueble, String pieza) throws MisExcepciones {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        int numModificados = 0;
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_SOBREESCRIBIR_REQUERIMIENTO);
+            stmt.setInt(1, nuevaCantidad);
+            stmt.setString(2, mueble);
+            stmt.setString(3, pieza);
+
+            numModificados = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return numModificados;
+    }
+
+    public boolean existe(String mueble, String pieza) throws MisExcepciones {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean existe = false;
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_BUSCAR_REQUERIMIENTO);
+            stmt.setString(1, mueble);
+            stmt.setString(2, pieza);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                existe = true;
+            }
+
+        } catch (SQLException ex) {
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return existe;
+    }
 
     @Override
     public EnsamblePieza encontrar(EnsamblePieza t) {
@@ -52,7 +103,7 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
         }
         return requerimientos;
     }
-    
+
     public List<EnsamblePieza> listarSegunTipoMueble(String tipoMueble) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -68,7 +119,7 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
             while (rs.next()) {
                 String nombrePieza = rs.getString("tp.nombre");
                 int cantidadNecesaria = rs.getInt("r.cantidad_necesaria");
-                
+
                 EnsamblePieza ensamblePieza = new EnsamblePieza(nombrePieza, cantidadNecesaria);
                 requerimientos.add(ensamblePieza);
             }
@@ -117,7 +168,7 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
     }
 
     @Override
-    public List<EnsamblePieza> listar() throws MisExcepciones{
+    public List<EnsamblePieza> listar() throws MisExcepciones {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
