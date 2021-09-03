@@ -15,6 +15,7 @@ import dominio.clases.Devolucion;
 import dominio.clases.EnsamblarMueble;
 import dominio.clases.Factura;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -71,8 +72,10 @@ public class ControladorVentas {
             total += d.getPrecio();
         }
 
+        DecimalFormat df  = new DecimalFormat("#.00");
+        
         request.setAttribute("detalles", detalles);
-        request.setAttribute("total", total);
+        request.setAttribute("total", df.format(total));
         request.setAttribute("fechaHoy", fecha);
         request.getRequestDispatcher("/WEB-INF/paginas/venta/ventas-diarias.jsp").forward(request, response);
     }
@@ -297,11 +300,19 @@ public class ControladorVentas {
 
         facturaDao.agregarTotal(total, numFactura);
 
+        DecimalFormat df = new DecimalFormat("#.00");
+
         List<Detalle> detalles = new DetalleDao().obtenerDetalleFactura(numFactura);
         Cliente infoCliente = new ClienteDao().encontrar(new Cliente(nit));
+        
+        if (infoCliente.getMunicipo() == null || infoCliente.getMunicipo().isBlank()) {
+            infoCliente.setMunicipo("----------------------------");
+            infoCliente.setDepartamento("-----------------------");
+        }
+        
         request.setAttribute("clienteF", infoCliente);
         request.setAttribute("detalles", detalles);
-        request.setAttribute("total", total);
+        request.setAttribute("total", df.format(total));
         request.getRequestDispatcher("/WEB-INF/paginas/venta/factura.jsp").forward(request, response);
     }
 

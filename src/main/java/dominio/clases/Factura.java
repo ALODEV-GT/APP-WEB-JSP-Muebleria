@@ -1,5 +1,6 @@
 package dominio.clases;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class Factura {
@@ -40,7 +41,7 @@ public class Factura {
     }
 
     public double getTotal() {
-        return total;
+        return Double.valueOf(new DecimalFormat("#.00").format(total));
     }
 
     public void setTotal(double total) {
