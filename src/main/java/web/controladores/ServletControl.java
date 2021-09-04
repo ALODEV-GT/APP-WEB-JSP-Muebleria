@@ -106,8 +106,6 @@ public class ServletControl extends HttpServlet {
     private void logOut(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones {
         try {
             HttpSession sesion = request.getSession(true);
-            sesion.removeAttribute("nombreUsuario");
-            sesion.removeAttribute("password");
             sesion.invalidate();
             response.sendRedirect("publicas/login.jsp");
         } catch (IOException ex) {
@@ -143,7 +141,6 @@ public class ServletControl extends HttpServlet {
 
         HttpSession sesion = request.getSession();
         sesion.setAttribute("nombreUsuario", nombreUsuario);
-        sesion.setAttribute("area", area.toUpperCase());
 
         try {
             switch (area) {

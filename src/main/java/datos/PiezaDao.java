@@ -21,7 +21,6 @@ public class PiezaDao implements Sentencias<Pieza> {
     private static final String SQL_UPDATE_PRECIO = "UPDATE pieza SET  precio=? WHERE id_pieza=?";
     private static final String SQL_UPDATE_REHUSAR = "UPDATE pieza SET precio=precio*0.6666 , usado=0 WHERE id_pieza=?";
 
-    
     public void rehusarPieza(int idPieza) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -177,6 +176,7 @@ public class PiezaDao implements Sentencias<Pieza> {
             stmt.setDouble(1, idTipoPieza);
             stmt.executeUpdate();
         } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);

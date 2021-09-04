@@ -21,9 +21,43 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
     private static final String SQL_PIEZAS_POR_AGOTAR = "SELECT * FROM tipo_pieza WHERE cantidad<20 AND eliminado = 0";
     private static final String SQL_SELECT = "SELECT * FROM tipo_pieza WHERE eliminado=0";
     private static final String SQL_UPDATE_NOMBRE = "UPDATE tipo_pieza SET nombre = ? WHERE id_tipo_pieza = ?";
-    private static final String SQL_DESHABILITAR = "UPDATE tipo_pieza SET eliminado=1 WHERE id_tipo_pieza=?";
+    private static final String SQL_DESHABILITAR = "UPDATE tipo_pieza SET eliminado=1, cantidad=0 WHERE id_tipo_pieza=?";
     private static final String SQL_HABILITAR = "UPDATE tipo_pieza SET eliminado=0 WHERE nombre=?";
+    private static final String SQL_ESTA_HABILITADO = "SELECT eliminado FROM tipo_pieza WHERE nombre=?";
 
+    public boolean estaHabilitado(String tipoPieza) throws MisExcepciones{
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean habilitado = true;
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_ESTA_HABILITADO);
+            stmt.setString(1, tipoPieza.toUpperCase());
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int eliminado = rs.getInt("eliminado");
+                if (eliminado == 1) {
+                    habilitado = false;
+                }
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+            throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+
+        return habilitado;
+    }
+    
+    
     public List<TipoPieza> listarPiezasPorAgotar() throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;

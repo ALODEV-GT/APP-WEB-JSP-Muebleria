@@ -196,12 +196,16 @@ public class ControladorAdministracion {
                     break;
                 case "crearUsuario":
                     this.agregarUsuario(request, response);
+                    break;
                 case "editarMueble":
                     this.editarMueble(request, response);
+                    break;
                 case "agregarMueble":
                     this.agregarMueble(request, response);
+                    break;
                 case "agregarRequerimiento":
                     this.agregarRequerimiento(request, response);
+                    break;
             }
         } catch (ServletException | IOException ex) {
             ex.printStackTrace(System.out);
@@ -362,7 +366,7 @@ public class ControladorAdministracion {
         for (ConsultasAdministracion r : registros) {
             totalPerdida += r.getPerdida();
         }
-        
+
         DecimalFormat df = new DecimalFormat("#.00");
 
         request.setAttribute("fechaInicial", fechaInicial);

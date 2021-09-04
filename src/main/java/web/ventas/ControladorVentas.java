@@ -361,8 +361,7 @@ public class ControladorVentas {
     
     private void productos(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
         List<EnsamblarMueble> muebles = new EnsambleMuebleDao().listarDisponibles();
-        HttpSession sesion = request.getSession();
-        sesion.setAttribute("productos", muebles);
+        request.setAttribute("productos", muebles);
         request.getRequestDispatcher("/WEB-INF/paginas/venta/productos.jsp").forward(request, response);
     }
     
