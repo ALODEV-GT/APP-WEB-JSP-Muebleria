@@ -15,7 +15,7 @@
             <input type="submit"  value="Mostrar"/>
         </div>
     </form>
-        <hr>
+    <hr>
 </div>
 <c:forEach var="facturas" items="${facturas}">
     <div class="container my-5 col-md-3" style="background-color: #EBEBEB; color: #BC6C25; font-family: fantasy; border: 1px solid #fde5cf;">
@@ -24,22 +24,22 @@
 
         <div>
             <label><b>Nit:</b></label>
-            <input style="border: none; color: #BC6C25; width: 349px; background-color: #EBEBEB;" type="text" value="${facturas.nitCliente}" />
+            <input disabled style="border: none; color: #BC6C25; width: 349px; background-color: #EBEBEB;" type="text" value="${facturas.nitCliente}" />
         </div>
-        
+
         <div>
             <label><b>Nombre:</b></label>
-            <input style="border: none; color: #BC6C25; width: 300px; background-color: #EBEBEB;" type="text" value="${facturas.nombreCliente}" />
+            <input disabled style="border: none; color: #BC6C25; width: 300px; background-color: #EBEBEB;" type="text" value="${facturas.nombreCliente}" />
         </div>
 
         <div>
             <label><b>Fecha:</b></label>
-            <input style="border: none; color: #BC6C25; width: 300px; background-color: #EBEBEB;" type="text" value="${facturas.fecha}" />
+            <input disabled style="border: none; color: #BC6C25; width: 300px; background-color: #EBEBEB;" type="text" value="${facturas.fecha}" />
         </div>
 
         <div>
             <label><b>Vendedor:</b></label>
-            <input style="border: none; color: #BC6C25; width: 300px; background-color: #EBEBEB;" type="text" value="${facturas.vendedor}"/>
+            <input disabled style="border: none; color: #BC6C25; width: 300px; background-color: #EBEBEB;" type="text" value="${facturas.vendedor}"/>
         </div>
 
         <table style="color: #BC6C25; font-family: fantasy" class="table">

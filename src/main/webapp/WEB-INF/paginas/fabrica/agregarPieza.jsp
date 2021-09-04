@@ -3,7 +3,7 @@
 <jsp:include page="/WEB-INF/paginas/fabrica/menu.jsp"/>
 
 <div class="container col-md-4 my-5" style="text-align: center; border: 2px solid #000; border-radius: 15px">
-    <h2 class="my-3">Agrega una nueva pieza</h2>
+    <h2 class="my-3 contenedor">Agrega una nueva pieza</h2>
     <form action="${pageContext.request.contextPath}/ServletControlador?accionFabrica=agregarPieza" method="POST">
         <div class="my-3">
             <label for="tipoPieza">Tipo de pieza</label>
@@ -15,7 +15,7 @@
         </div>
         <div class="my-3">
             <label for="precioPieza">Precio</label>
-            <input type="number" name="precioPieza" required step="any" />
+            <input style="width: 267px" type="number" name="precioPieza" required step="any" />
         </div>
         <div class="my-4">
             <button class="btn btn-outline-success" type="submit">Agregar</button>

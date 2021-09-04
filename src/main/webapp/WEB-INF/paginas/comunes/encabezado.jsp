@@ -25,7 +25,7 @@
             <div class="col">
                 <div class="contenedor d-flex">
                     <div class=" p-2 bg-dark text-white me-auto">
-                        <h1>
+                        <h1 >
                             MI MUEBLERIA
                         </h1>
                     </div>

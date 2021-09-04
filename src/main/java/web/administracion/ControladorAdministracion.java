@@ -339,11 +339,13 @@ public class ControladorAdministracion {
             totalVendido += r.getPrecioVenta();
         }
 
+        DecimalFormat df = new DecimalFormat("#.00");
+
         request.setAttribute("fechaInicial", fechaInicial);
         request.setAttribute("fechaFinal", fechaFinal);
         request.setAttribute("registros", registros);
         request.setAttribute("cantidadVentas", registros.size());
-        request.setAttribute("cantidadTotalVentas", totalVendido);
+        request.setAttribute("cantidadTotalVentas", df.format(totalVendido));
         request.getRequestDispatcher("/WEB-INF/paginas/administracion/reporte-ventas.jsp").forward(request, response);
     }
 
@@ -360,12 +362,14 @@ public class ControladorAdministracion {
         for (ConsultasAdministracion r : registros) {
             totalPerdida += r.getPerdida();
         }
+        
+        DecimalFormat df = new DecimalFormat("#.00");
 
         request.setAttribute("fechaInicial", fechaInicial);
         request.setAttribute("fechaFinal", fechaFinal);
         request.setAttribute("registros", registros);
         request.setAttribute("numDevoluciones", numDevoluciones);
-        request.setAttribute("totalPerdida", totalPerdida);
+        request.setAttribute("totalPerdida", df.format(totalPerdida));
         request.getRequestDispatcher("/WEB-INF/paginas/administracion/reporte-devoluciones.jsp").forward(request, response);
     }
 

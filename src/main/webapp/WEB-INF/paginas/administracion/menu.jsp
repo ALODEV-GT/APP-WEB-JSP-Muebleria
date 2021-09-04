@@ -2,7 +2,7 @@
     <div class="col">
         <div class="contenedor d-flex align-items-start">
             <div>
-                <a href="${pageContext.request.contextPath}/ServletControlador?paginaAdministracion=inicio" class="btn btn-warning" role="button">INICIO</a>
+                <a href="${pageContext.request.contextPath}/ServletControlador?paginaAdministracion=inicio" class="btn btn-warning" role="button">REPORTES</a>
             </div>
             <div>
                 <a href="${pageContext.request.contextPath}/ServletControlador?paginaAdministracion=creacionMuebles" class="btn btn-warning" role="button">CREACION DE MUEBLES</a>

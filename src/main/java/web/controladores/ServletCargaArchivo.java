@@ -3,6 +3,9 @@ package web.controladores;
 import dominio.cargarDatos.CargarDatos;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -36,8 +39,10 @@ public class ServletCargaArchivo extends HttpServlet {
         //Procesamiento del archivo
         File archivo = new File(path + "/" + nombreArchivo);
         CargarDatos cargarDatos = new CargarDatos(archivo);
-        
 
-        response.getWriter().print("<html><head></head><body><h1>Archivo subido correctamente</h1></body><html>");
+        List<String> errores = new ArrayList<>(Arrays.asList(cargarDatos.getErrores().split("%")));
+
+        request.setAttribute("errores", errores);
+        request.getRequestDispatcher("/WEB-INF/paginas/administracion/cargar-datos.jsp").forward(request, response);
     }
 }
