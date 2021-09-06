@@ -25,7 +25,6 @@ import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 public class ControladorVentas {
     
@@ -258,7 +257,7 @@ public class ControladorVentas {
         String mueblesAComprar = request.getParameter("mueblesAComprar");
         String vendedor = request.getParameter("vendedor");
         
-        if (nit.isBlank() || nombre.isBlank()) {
+        if (nit.isBlank() || nombre.isBlank() || mueblesAComprar.isBlank()){
             throw new MisExcepciones("Debes llenar los campos");
         }
         
