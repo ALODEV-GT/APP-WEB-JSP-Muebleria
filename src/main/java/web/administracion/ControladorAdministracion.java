@@ -23,6 +23,14 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ControladorAdministracion {
 
+    /**
+     * Recibe y distribuye todas las peticiones get en el area de fabrica.
+     * @param request
+     * @param response
+     * @throws MisExcepciones
+     * @throws ServletException
+     * @throws IOException 
+     */
     public void administracionAccionesGet(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
         String accionAdministracion = request.getParameter("accionAdministracion");
 
@@ -48,6 +56,14 @@ public class ControladorAdministracion {
         }
     }
 
+    /**
+     * Redireccion hacia el jsp para editar un mueble.
+     * @param request
+     * @param response
+     * @throws MisExcepciones
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void mostrarEditarMueble(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
         String nombreMueble = request.getParameter("nombreMueble");
 
@@ -56,10 +72,26 @@ public class ControladorAdministracion {
         request.getRequestDispatcher("/WEB-INF/paginas/administracion/editar-mueble.jsp").forward(request, response);
     }
 
+    /**
+     * Redirecciona hacia el JSP para agregar un mueble.
+     * @param request
+     * @param response
+     * @throws MisExcepciones
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void mostrarAgregarMueble(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/paginas/administracion/agregar-mueble.jsp").forward(request, response);
     }
 
+    /**
+     * Redirecciona hacia la pagina para agregar un requisito.
+     * @param request
+     * @param response
+     * @throws MisExcepciones
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void mostrarAgregarRequisitoMueble(HttpServletRequest request, HttpServletResponse response) throws MisExcepciones, ServletException, IOException {
         List<Mueble> muebles = new MuebleDao().listar();
         List<TipoPieza> tipoPiezas = new TipoPiezaDao().listar();

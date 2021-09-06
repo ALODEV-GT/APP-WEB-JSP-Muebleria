@@ -12,10 +12,19 @@ import java.util.List;
 
 public class DevolucionDao implements Sentencias<Devolucion> {
 
+    //Consultas
     private static final String SQL_INSERT = "INSERT INTO devolucion(id_mueble_devuelto,num_factura,fecha,perdida) VALUES(?,?,?,?)";
     private static final String SQL_OBTENER_ALL_DEVOLUCIONES = "SELECT dev.num_factura, c.nombre, f.nit_cliente, dev.fecha, dev.id_mueble_devuelto, e.tipo_mueble FROM devolucion dev JOIN factura f ON(dev.num_factura=f.num_factura) JOIN cliente c ON(f.nit_cliente=c.nit) JOIN ensamble e ON(dev.id_mueble_devuelto=e.id_ensamble)";
     private static final String SQL_OBTENER_DEVOLUCIONES_BY_NIT_AND_FECHA = "SELECT dev.num_factura, c.nombre, f.nit_cliente, dev.fecha, dev.id_mueble_devuelto, e.tipo_mueble FROM devolucion dev JOIN factura f ON(dev.num_factura=f.num_factura) JOIN cliente c ON(f.nit_cliente=c.nit) JOIN ensamble e ON(dev.id_mueble_devuelto=e.id_ensamble) WHERE dev.fecha BETWEEN ? AND ? AND f.nit_cliente=? ORDER BY dev.fecha DESC";
 
+    /**
+     * Obtiene los registros de las devoluciones de un cliente en un intervalo de fecha determinada.
+     * @param nitC nit del cliente
+     * @param fechaInicial
+     * @param fechaFinal
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<Devolucion> obtenerDevolucionesByNitAndFecha(String nitC, String fechaInicial, String fechaFinal) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -52,6 +61,11 @@ public class DevolucionDao implements Sentencias<Devolucion> {
         return devoluciones;
     }
 
+    /**
+     * Obtiene el registro de todas las devoluciones.
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<Devolucion> obtenerAllDevoluciones() throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -85,6 +99,12 @@ public class DevolucionDao implements Sentencias<Devolucion> {
         return devoluciones;
     }
 
+    /**
+     * Inserta un nuevo registro de una devolucion con los valores especificados en el modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int insertar(Devolucion modelo) throws MisExcepciones {
         Connection conn = null;

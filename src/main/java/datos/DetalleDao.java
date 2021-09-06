@@ -12,13 +12,18 @@ import java.util.List;
 
 public class DetalleDao implements Sentencias<Detalle> {
 
+    //Consultas
     private static final String SQL_INSERT = "INSERT INTO detalle(num_detalle,num_factura,id_ensamble,precio) VALUES(?,?,?,?)";
     private static final String SQL_EXISTE_COMPRA = "SELECT * FROM detalle WHERE num_factura=? AND id_ensamble=?";
     private static final String SQL_OBTENER_DETALLES = "SELECT d.num_detalle, d.id_ensamble, d.precio, e.tipo_mueble FROM detalle d JOIN ensamble e ON(d.id_ensamble=e.id_ensamble) WHERE num_factura = ? ORDER BY d.num_detalle ASC";
     private static final String SQL_VENTAS_DIARIAS = "SELECT f.fecha, f.num_factura, d.id_ensamble, e.tipo_mueble, d.precio FROM detalle d JOIN factura f ON(d.num_factura=f.num_factura) JOIN ensamble e ON(d.id_ensamble=e.id_ensamble) WHERE f.fecha=?";
     private static final String SQL_COMPRA_ALL_CLIENTES = "SELECT f.fecha, c.nombre, f.num_factura, d.id_ensamble, e.tipo_mueble, d.precio FROM detalle d JOIN factura f ON(d.num_factura=f.num_factura) JOIN ensamble e ON(d.id_ensamble=e.id_ensamble) JOIN cliente c ON(f.nit_cliente=c.nit) ORDER BY f.fecha DESC";
     
-    
+    /**
+     * Obtiene el registro de las compras de todos los clientes.
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<Detalle> obtenerComprasAllClientes() throws MisExcepciones{
          Connection conn = null;
         PreparedStatement stmt = null;
@@ -51,9 +56,12 @@ public class DetalleDao implements Sentencias<Detalle> {
         return detalles;
     }
     
-    
-    
-    
+    /**
+     * Obtiene los registros de las ventas en un dia especificado.
+     * @param fecha
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<Detalle> obtenerVentasDia(String fecha) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -87,6 +95,12 @@ public class DetalleDao implements Sentencias<Detalle> {
         return detalles;
     }
 
+    /**
+     * Obtiene los productos comprados de una factura.
+     * @param numFactura
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<Detalle> obtenerDetalleFactura(int numFactura) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -119,6 +133,13 @@ public class DetalleDao implements Sentencias<Detalle> {
         return detalles;
     }
 
+    /**
+     * Verifica la existencia de una compra de acuerdo al numero de factura y el id del producto.
+     * @param numFactura
+     * @param idMueble
+     * @return
+     * @throws MisExcepciones 
+     */
     public boolean existeCompra(int numFactura, int idMueble) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -160,6 +181,12 @@ public class DetalleDao implements Sentencias<Detalle> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Inserta un nuevo registro de la compra de un producto.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int insertar(Detalle modelo) throws MisExcepciones {
         Connection conn = null;

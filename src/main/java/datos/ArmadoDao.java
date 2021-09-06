@@ -11,6 +11,7 @@ import java.util.List;
 
 public class ArmadoDao implements Sentencias<Armado> {
     
+    //Consultas
     private static final String SQL_INSERT = "INSERT INTO armado(id_pieza_usada,id_ensamble) VALUES(?,?)";
     private static final String SQL_SELECT = "SELECT tp.nombre, p.precio, a.id_pieza_usada FROM armado a JOIN pieza p ON(a.id_pieza_usada = p.id_pieza) JOIN tipo_pieza tp ON(p.id_tipo_pieza = tp.id_tipo_pieza) WHERE a.id_ensamble=?";
     
@@ -29,6 +30,12 @@ public class ArmadoDao implements Sentencias<Armado> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     * Lista el id de las piezas usadas en el ensamble con el id que se recibe como parametro..
+     * @param idEnsamble 
+     * @return Una lista con el id de las piezas usadas en el ensamble.
+     * @throws MisExcepciones 
+     */
     public List<Armado> listarSegunIdEnsamble(int idEnsamble) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -60,6 +67,12 @@ public class ArmadoDao implements Sentencias<Armado> {
         return armados;
     }
     
+    /**
+     * Inserta un registos utilizando los valores especificados en el modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int insertar(Armado modelo) throws MisExcepciones {
         Connection conn = null;

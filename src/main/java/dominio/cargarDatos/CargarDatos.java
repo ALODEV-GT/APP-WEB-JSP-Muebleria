@@ -35,6 +35,9 @@ public class CargarDatos {
         cargarDatos();
     }
 
+    /**
+     * Procesa linea por linea del archivo cargado.
+     */
     private void cargarDatos() {
         String[] lineasArchivo;
         String encabezado;
@@ -51,6 +54,11 @@ public class CargarDatos {
         }
     }
 
+    /**
+     * Elimina las comillas y espacios de una cadena de caracteres.
+     * @param linea
+     * @return 
+     */
     private String quitarComillasYEspacios(String linea) {
         String nuevaLinea = "";
         String[] comillas = linea.split("\"");
@@ -60,6 +68,12 @@ public class CargarDatos {
         return nuevaLinea;
     }
 
+    /**
+     * Distribuye las funciones deacuerdo al encabezado de las lineas del archivo de texto.
+     * @param encabezado
+     * @param campos
+     * @throws MisExcepciones 
+     */
     private void procesarLinea(String encabezado, ArrayList<String> campos) throws MisExcepciones {
 
         switch (encabezado) {
@@ -84,6 +98,11 @@ public class CargarDatos {
         }
     }
 
+    /**
+     * Almacena en un arreglo las lineas del archivo recibido.
+     * @param archivoCarga
+     * @return 
+     */
     private String[] listarLineasArchivo(File archivoCarga) {
         ArrayList<String> listaLineasArchivo = new ArrayList();
 
@@ -109,6 +128,11 @@ public class CargarDatos {
         return lista;
     }
 
+    /**
+     * Extrae la instruccion a ejecutar del archivo recibido.
+     * @param lineaArchivo
+     * @return 
+     */
     private String extraerEncabezado(String lineaArchivo) {
         String[] cadena;
         String encabezado;
@@ -117,6 +141,11 @@ public class CargarDatos {
         return encabezado;
     }
 
+    /**
+     * Extrae los atributos necesarios para la ejecucion de una instruccion.
+     * @param lineaArchivo
+     * @return 
+     */
     private ArrayList<String> extraerCampos(String lineaArchivo) {
         ArrayList<String> camposIndividualesAL = null;
         try {
@@ -132,10 +161,19 @@ public class CargarDatos {
         return camposIndividualesAL;
     }
 
+    /**
+     * Agrega un error detectado.
+     * @param error 
+     */
     private void agregarError(String error) {
         this.errores += error + "%";
     }
 
+    /**
+     * Procesa la instruccion USUARIO(atributos).
+     * @param campos
+     * @throws MisExcepciones 
+     */
     private void cargarUsuario(ArrayList<String> campos) throws MisExcepciones {
         try {
             if (campos.size() != 3) {
@@ -169,6 +207,11 @@ public class CargarDatos {
         }
     }
 
+   /**
+    * Procesa la instruccion PIEZA(atributos).
+    * @param campos
+    * @throws MisExcepciones 
+    */
     private void cargarPieza(ArrayList<String> campos) throws MisExcepciones {
         try {
             if (campos.size() != 2) {
@@ -208,6 +251,11 @@ public class CargarDatos {
         }
     }
 
+    /**
+     * Procesa la instruccion MUEBLE(atributos).
+     * @param campos
+     * @throws MisExcepciones 
+     */
     private void cargarMueble(ArrayList<String> campos) throws MisExcepciones {
 
         try {
@@ -241,6 +289,11 @@ public class CargarDatos {
         }
     }
 
+    /**
+     * Procesa la instruccion ENSAMBLE_PIEZAS(atributos).
+     * @param campos
+     * @throws MisExcepciones 
+     */
     private void cargarEnsamblePiezas(ArrayList<String> campos) throws MisExcepciones {
         try {
             if (campos.size() != 3) {
@@ -285,6 +338,11 @@ public class CargarDatos {
         }
     }
 
+    /**
+     * Procesa la instruccion ENSAMBLAR_MUEBLE(atributos).
+     * @param campos
+     * @throws MisExcepciones 
+     */
     private void cargarEnsamblarMueble(ArrayList<String> campos) throws MisExcepciones {
         try {
 
@@ -374,6 +432,11 @@ public class CargarDatos {
         }
     }
 
+    /**
+     * Procesa la instruccion CLIENTE(atributos).
+     * @param campos
+     * @throws MisExcepciones 
+     */
     private void cargarCliente(ArrayList<String> campos) throws MisExcepciones {
         if (campos.size() != 3 && campos.size() != 5) {
             throw new MisExcepciones("Es necesario ingresar (\"Nombre\",\"Nit\",\"direccion\")  o  (\"Nombre\",\"Nit\",\"direccion\",\"Municipio\",\"Departamento\")");

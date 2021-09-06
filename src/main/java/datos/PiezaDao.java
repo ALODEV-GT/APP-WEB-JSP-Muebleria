@@ -11,6 +11,7 @@ import java.util.List;
 
 public class PiezaDao implements Sentencias<Pieza> {
 
+    //Consultas
     private static final String SQL_INSERT = "INSERT INTO pieza(id_tipo_pieza,precio,usado) VALUES(?,?,0)";
     private static final String SQL_SELECT_BY_TIPO_PIEZA = "SELECT * FROM pieza WHERE id_tipo_pieza=? AND usado=0";
     private static final String SQL_USAR_PIEZA = "UPDATE pieza SET usado = 1 WHERE id_pieza = ?";
@@ -21,6 +22,12 @@ public class PiezaDao implements Sentencias<Pieza> {
     private static final String SQL_UPDATE_PRECIO = "UPDATE pieza SET  precio=? WHERE id_pieza=?";
     private static final String SQL_UPDATE_REHUSAR = "UPDATE pieza SET precio=precio*0.6666 , usado=0 WHERE id_pieza=?";
 
+    /**
+     * Actualiza el precio de un registro.
+     * El precio de esta pieza se devaluara 1/3 de su valor inicial.
+     * @param idPieza
+     * @throws MisExcepciones 
+     */
     public void rehusarPieza(int idPieza) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -39,6 +46,12 @@ public class PiezaDao implements Sentencias<Pieza> {
         }
     }
 
+    /**
+     * Obtiene un registro almacenandolo en un modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public Pieza encontrar(Pieza modelo) throws MisExcepciones {
         Connection conn = null;
@@ -73,6 +86,12 @@ public class PiezaDao implements Sentencias<Pieza> {
         return modelo;
     }
 
+    /**
+     * Agrega un nuevo registro con los valores especificandos en el modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int insertar(Pieza modelo) throws MisExcepciones {
         Connection conn = null;
@@ -96,6 +115,11 @@ public class PiezaDao implements Sentencias<Pieza> {
         return numModificados;
     }
 
+    /**
+     * Actualiza el atributo usado, especificando que esta pieza ya fue usada.
+     * @param idPieza
+     * @throws MisExcepciones 
+     */
     public void usarPieza(int idPieza) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -115,6 +139,12 @@ public class PiezaDao implements Sentencias<Pieza> {
         }
     }
 
+    /**
+     * Obtiene el registro de una pieza que aun no ha sido usada.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     public Pieza encotrarNoUsadosByIdTipoPieza(Pieza modelo) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -146,6 +176,12 @@ public class PiezaDao implements Sentencias<Pieza> {
         return modelo;
     }
 
+    /**
+     * Elimina el rigistro de una pieza.
+     * @param modelo pieza a eliminar.
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int eliminar(Pieza modelo) throws MisExcepciones {
         int numModificados = 0;
@@ -166,6 +202,11 @@ public class PiezaDao implements Sentencias<Pieza> {
         return numModificados;
     }
 
+    /**
+     * Elimina todas las piezas que sean de un tipo de pieza determinado.
+     * @param idTipoPieza id del tipo de pieza.
+     * @throws MisExcepciones 
+     */
     public void eleminarSegunTipoPieza(int idTipoPieza) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -184,6 +225,12 @@ public class PiezaDao implements Sentencias<Pieza> {
         }
     }
 
+    /**
+     * Actualiza el atributo precio de un registro. 
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int actualizar(Pieza modelo) throws MisExcepciones {
         Connection conn = null;
@@ -211,6 +258,11 @@ public class PiezaDao implements Sentencias<Pieza> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Obtiene la informacion(id pieza, tipo de pieza, precio) de todos los registros que aun no han sido usados.
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public List<Pieza> listar() throws MisExcepciones {
         Connection conn = null;

@@ -10,9 +10,16 @@ import java.util.List;
 
 public class ClienteDao implements Sentencias<Cliente> {
 
+    //Consultas
     private static final String SQL_INSERT = "INSERT INTO cliente(nit,nombre,direccion,municipio,departamento) VALUES(?,?,?,?,?)";
     private static final String SQL_EXISTE = "SELECT * FROM cliente WHERE nit=?";
 
+    /**
+     * Verifica la existencia de un cliente segun el nit.
+     * @param nit
+     * @return
+     * @throws MisExcepciones 
+     */
     public boolean existe(String nit) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -38,6 +45,12 @@ public class ClienteDao implements Sentencias<Cliente> {
         return existe;
     }
 
+    /**
+     * Recupera los valores de un registro almacenandolo en un modelo.
+     * @param modelo
+     * @return El modelo con los valores del registro.
+     * @throws MisExcepciones 
+     */
     @Override
     public Cliente encontrar(Cliente modelo) throws MisExcepciones{
         Connection conn = null;
@@ -74,6 +87,12 @@ public class ClienteDao implements Sentencias<Cliente> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Inserta un nuevo registro con los valores especificados en el modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int insertar(Cliente modelo) throws MisExcepciones {
         Connection conn = null;

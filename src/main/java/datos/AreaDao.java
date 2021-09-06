@@ -10,12 +10,17 @@ import java.util.List;
 
 public class AreaDao {
 
+    //Consultas
     private static final String SQL_OBTENER_ID = "SELECT * FROM area WHERE nombre=? LIMIT 1";
     private static final String SQL_SELECT = "SELECT nombre FROM area";
     private static final String SQL_OBTENER_NOMBRE = "SELECT nombre FROM area WHERE id_area=?";
 
     
-    
+    /**
+     * Lista todal las diferentes areas.
+     * @return Una lista con las areas.
+     * @throws MisExcepciones 
+     */
     public List<String> listarAreas() throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -41,6 +46,12 @@ public class AreaDao {
         return areas;
     }
 
+    /**
+     * Obtiene el id del area.
+     * @param nombreArea nombre del area que se necesita obtener su id.
+     * @return El id del area que recibe como parametro.
+     * @throws MisExcepciones 
+     */
     public int obtenerId(String nombreArea) throws MisExcepciones {
 
         Connection conn = null;
@@ -70,6 +81,12 @@ public class AreaDao {
         return idArea;
     }
     
+    /**
+     * Obtiene el nombre del area segun el id que se envie como parametro.
+     * @param idArea 
+     * @return el nombre del area.
+     * @throws MisExcepciones 
+     */
     public String obtenerNombreArea(int idArea) throws MisExcepciones {
 
         Connection conn = null;

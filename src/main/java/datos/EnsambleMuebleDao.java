@@ -12,6 +12,7 @@ import java.util.List;
 
 public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
 
+    //Consultas
     private static final String SQL_INSERT = "INSERT INTO ensamble(fecha_ensamble, usuario_ensamblador,tipo_mueble,costo,vendido,devuelto) VALUES(?,?,?,?,0,0)";
     private static final String SQL_SELECCIONAR_ULTIMO = "SELECT id_ensamble FROM ensamble ORDER BY id_ensamble DESC LIMIT 1";
     private static final String SQL_SELECT = "SELECT * FROM ensamble";
@@ -22,6 +23,11 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
     private static final String SQL_OBTENER_PRECIO = "SELECT m.precio FROM ensamble e JOIN mueble m ON(e.tipo_mueble=m.tipo_mueble)  WHERE id_ensamble=?";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM ensamble WHERE id_ensamble=?";
 
+    /**
+     * Actualiza la informacion de un mueble especificando que fue devuelto.
+     * @param idEnsamble Id del mueble a devolver.
+     * @throws MisExcepciones 
+     */
     public void devolver(int idEnsamble) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -41,6 +47,12 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         }
     }
 
+    /**
+     * Obtiene la informacion del ensamble de un mueble almacenandolo en un modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public EnsamblarMueble encontrar(EnsamblarMueble modelo) throws MisExcepciones {
         Connection conn = null;
@@ -76,6 +88,12 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         return ensamblarMueble;
     }
 
+    /**
+     * Obtiene el precio del ensamble de un mueble.
+     * @param idEnsamble
+     * @return
+     * @throws MisExcepciones 
+     */
     public double obtenerPrecio(int idEnsamble) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -101,6 +119,11 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         return precio;
     }
 
+    /**
+     * Actualiza la informacion de un ensamble especificando que se vendio.
+     * @param idEnsamble id del ensamble a vender.
+     * @throws MisExcepciones 
+     */
     public void venderMueble(int idEnsamble) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -120,6 +143,12 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         }
     }
 
+    /**
+     * Verifica si un ensamble esta disponible para ser vedido.
+     * @param idEnsamble
+     * @return
+     * @throws MisExcepciones 
+     */
     public boolean estaEnVenta(int idEnsamble) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -146,6 +175,11 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         return existe;
     }
 
+    /**
+     * Lista todos los ensambles (productos) que estan disponibles para ser vendidos.
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<EnsamblarMueble> listarDisponibles() throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -181,6 +215,11 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Obtiene el id del ultimo mueble ensamblado.
+     * @return
+     * @throws MisExcepciones 
+     */
     public int obtenerIdUltimoEnviado() throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -206,6 +245,12 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         return idEnsamble;
     }
 
+    /**
+     * Inserta un nuevo registro del ensamble de un mueble con los valores especificados en el modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int insertar(EnsamblarMueble modelo) throws MisExcepciones {
         Connection conn = null;
@@ -240,6 +285,12 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Obtiene el registro de todos los muebles ensamblados segun el orden especificado
+     * @param descendente orden.
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<EnsamblarMueble> listar(boolean descendente) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;

@@ -12,6 +12,7 @@ import java.util.List;
 
 public class ConsultasAdministracionDao {
 
+    //Consultas
     private static final String SQL_REPORTE_VENTAS = "SELECT f.fecha, e.tipo_mueble, d.precio, f.vendedor, f.num_factura FROM detalle d JOIN ensamble e ON(d.id_ensamble=e.id_ensamble) JOIN factura f ON(d.num_factura=f.num_factura) WHERE f.fecha BETWEEN ? AND ? ORDER BY f.fecha DESC";
     private static final String SQL_REPORTE_DEVOLUCIONES = "SELECT f.num_factura,f.fecha,d.fecha,c.nombre,f.vendedor,e.tipo_mueble,d.perdida FROM devolucion d JOIN ensamble e ON(d.id_mueble_devuelto=e.id_ensamble) JOIN factura f ON(d.num_factura=f.num_factura) JOIN cliente c ON(f.nit_cliente=c.nit) WHERE d.fecha BETWEEN ? AND ? ORDER BY d.fecha DESC";
     private static final String SQL_REPORTE_GANANCIAS = "SELECT f.fecha, e.tipo_mueble,d.precio, e.costo, d.precio-e.costo AS ganancia FROM detalle d JOIN ensamble e ON(d.id_ensamble=e.id_ensamble) JOIN factura f ON(d.num_factura=f.num_factura) WHERE f.fecha BETWEEN ? AND ? ORDER BY f.fecha DESC";
@@ -24,6 +25,13 @@ public class ConsultasAdministracionDao {
     private static final String SQL_MUEBLE_MENOS_VENDIDO = "SELECT e.tipo_mueble, COUNT(e.tipo_mueble) AS total FROM detalle d JOIN ensamble e ON(d.id_ensamble=e.id_ensamble) JOIN factura f ON (d.num_factura=f.num_factura) WHERE f.fecha BETWEEN ? AND ? GROUP BY e.tipo_mueble ORDER BY total ASC LIMIT 1";
     private static final String SQL_REPORTE_MUEBLE_MENOS_VENDIDO = "SELECT f.fecha, d.num_factura, d.id_ensamble, e.tipo_mueble, d.precio FROM detalle d JOIN ensamble e ON(d.id_ensamble=e.id_ensamble) JOIN factura f ON(d.num_factura=f.num_factura) WHERE f.fecha BETWEEN ? AND ? AND e.tipo_mueble=? ORDER BY f.fecha DESC";
 
+    /**
+     * Obtiene los registros de las ventas en un intervalo de tiempo.
+     * @param fechaInicial
+     * @param fechaFinal
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<ConsultasAdministracion> obtenerReporteVentas(String fechaInicial, String fechaFinal) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -58,6 +66,13 @@ public class ConsultasAdministracionDao {
         return registros;
     }
 
+    /**
+     * Obtiene el registro de las devoluciones en un intervalo de tiempo.
+     * @param fechaInicial
+     * @param fechaFinal
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<ConsultasAdministracion> obtenerReporteDevoluciones(String fechaInicial, String fechaFinal) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -94,6 +109,13 @@ public class ConsultasAdministracionDao {
         return registros;
     }
 
+    /**
+     * Obtiene el registro de las ganancias en un intervalo de tiempo.
+     * @param fechaInicial
+     * @param fechaFinal
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<ConsultasAdministracion> obtenerReporteGanancias(String fechaInicial, String fechaFinal) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -128,6 +150,13 @@ public class ConsultasAdministracionDao {
         return registros;
     }
 
+    /**
+     * Obtiene el nombre de usuario del usuario con mas ventas en un intervalo de tiempo.
+     * @param fechaInicial
+     * @param fechaFinal
+     * @return
+     * @throws MisExcepciones 
+     */
     public String obtenerUsarioConMasVentas(String fechaInicial, String fechaFinal) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -155,6 +184,14 @@ public class ConsultasAdministracionDao {
         return nombreUsuario;
     }
 
+    /**
+     * Obtiene los registros de las ventas del usuario con mas ventas en un intervalo de tiempo.
+     * @param fechaInicial
+     * @param fechaFinal
+     * @param usuario
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<ConsultasAdministracion> obtenerReporteUsarioConMasVentas(String fechaInicial, String fechaFinal, String usuario) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -188,6 +225,13 @@ public class ConsultasAdministracionDao {
         return registros;
     }
 
+    /**
+     * Obtiene el nombre de usuario del usuario con mas ganancias en un intervalo de tiempo.
+     * @param fechaInicial
+     * @param fechaFinal
+     * @return
+     * @throws MisExcepciones 
+     */
     public String obtenerUsuarioConMasGanancias(String fechaInicial, String fechaFinal) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -215,6 +259,14 @@ public class ConsultasAdministracionDao {
         return nombreUsuario;
     }
 
+    /**
+     * Obtiene el registro de las ventas del usuraio con mas ganacias en un intervalo de tiempo.
+     * @param fechaInicial
+     * @param fechaFinal
+     * @param usuario
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<ConsultasAdministracion> obtenerReporteUsarioConMasGanancias(String fechaInicial, String fechaFinal, String usuario) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -252,6 +304,13 @@ public class ConsultasAdministracionDao {
         return registros;
     }
 
+    /**
+     * Obtiene el nombre del mueble mas vendido en un intervalo de tiempo.
+     * @param fechaInicial
+     * @param fechaFinal
+     * @return
+     * @throws MisExcepciones 
+     */
     public String obtenerMuebleMasVendido(String fechaInicial, String fechaFinal) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -279,6 +338,14 @@ public class ConsultasAdministracionDao {
         return nombreMueble;
     }
 
+    /**
+     * Obtiene los registros de las ventas del mueble mas vendido en un intervalo de tiempo.
+     * @param fechaInicial
+     * @param fechaFinal
+     * @param mueble
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<ConsultasAdministracion> reporteMuebleMasVendido(String fechaInicial, String fechaFinal, String mueble) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -313,6 +380,13 @@ public class ConsultasAdministracionDao {
         return registros;
     }
 
+    /**
+     * Obtiene el nombre del mueble menos vendido en un intervalo de tiempo.
+     * @param fechaInicial
+     * @param fechaFinal
+     * @return
+     * @throws MisExcepciones 
+     */
     public String obtenerMuebleMenosVendido(String fechaInicial, String fechaFinal) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -341,6 +415,14 @@ public class ConsultasAdministracionDao {
         return nombreMueble;
     }
 
+    /**
+     * Obtiene el registro de las ventas del mueble menos vendido en un intervalo de tiempo.9
+     * @param fechaInicial
+     * @param fechaFinal
+     * @param mueble
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<ConsultasAdministracion> reporteMuebleMenosVendido(String fechaInicial, String fechaFinal, String mueble) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;

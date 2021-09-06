@@ -11,6 +11,7 @@ import java.util.List;
 
 public class TipoPiezaDao implements Sentencias<TipoPieza> {
 
+    //Consultas
     private static final String SQL_SELECT_BY_NOMBRE = "SELECT * FROM tipo_pieza WHERE nombre=?";
     private static final String SQL_INSERT = "INSERT INTO tipo_pieza(nombre, cantidad, eliminado) VALUES(?, 0,0)";
     private static final String SQL_UPDATE = "UPDATE tipo_pieza SET nombre = ?, cantidad = ? WHERE id_tipo_pieza = ?";
@@ -25,6 +26,12 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
     private static final String SQL_HABILITAR = "UPDATE tipo_pieza SET eliminado=0 WHERE nombre=?";
     private static final String SQL_ESTA_HABILITADO = "SELECT eliminado FROM tipo_pieza WHERE nombre=?";
 
+    /**
+     * Verifica si un tipo de pieza esta habilitado.
+     * @param tipoPieza
+     * @return
+     * @throws MisExcepciones 
+     */
     public boolean estaHabilitado(String tipoPieza) throws MisExcepciones{
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -57,7 +64,11 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return habilitado;
     }
     
-    
+    /**
+     * Obtiene los registros donde la cantidad existente de las piezas de ese tipo es menor a 20.
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<TipoPieza> listarPiezasPorAgotar() throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -86,6 +97,11 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return piezas;
     }
 
+    /**
+     * Resta una unidad al contador de piezas de un tipo de pieza.
+     * @param idPieza
+     * @throws MisExcepciones 
+     */
     public void usarPieza(int idPieza) throws MisExcepciones{
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -105,6 +121,12 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         }
     }
 
+    /**
+     * Obtiene un registro un lo almacena en un modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     public TipoPieza encontrarById(TipoPieza modelo) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -137,6 +159,12 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return modelo;
     }
 
+    /**
+     * Verifica la existencia de un tipo de pieza.
+     * @param nombrePieza
+     * @return
+     * @throws MisExcepciones 
+     */
     public boolean existe(String nombrePieza) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -165,6 +193,12 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return existe;
     }
 
+    /**
+     * Obtiene un registro y lo almacena en un modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public TipoPieza encontrar(TipoPieza modelo) throws MisExcepciones {
         Connection conn = null;
@@ -201,6 +235,12 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Agrega un nuevo registro con los valores especificados en el modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int insertar(TipoPieza modelo) throws MisExcepciones {
         Connection conn = null;
@@ -227,6 +267,12 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return 0;
     }
 
+    /**
+     * Actualiza el atributo habilitado, especificando que el tipo de pieza sera deshabilitado.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     public int deshabilitar(TipoPieza modelo) throws MisExcepciones{
         int numModificados = 0;
         Connection conn = null;
@@ -246,6 +292,12 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return numModificados;
     }
 
+    /**
+     * Actualiza el atributo habilitado, especificando que el tipo de pieza sera habilitado.
+     * @param nombre
+     * @return
+     * @throws MisExcepciones 
+     */
     public int habilitar(String nombre) throws MisExcepciones {
         int numModificados = 0;
         Connection conn = null;
@@ -265,6 +317,12 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return numModificados;
     }
 
+    /**
+     * Actualiza el registro.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int actualizar(TipoPieza modelo) throws MisExcepciones{
         Connection conn = null;
@@ -288,6 +346,12 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return numModificados;
     }
 
+    /**
+     * Actualiza el atributo nombre de un registro.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     public int actualizarNombre(TipoPieza modelo) throws MisExcepciones{
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -308,6 +372,11 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return numModificados;
     }
 
+    /**
+     * Aumenta una unidad el contador de piezas de un tipo determinado.
+     * @param modelo
+     * @throws MisExcepciones 
+     */
     public void agregarPieza(TipoPieza modelo) throws MisExcepciones{
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -326,6 +395,11 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         }
     }
 
+    /**
+     * Resta una unidad al contador de piezas de un tipo de pieza.
+     * @param modelo
+     * @throws MisExcepciones 
+     */
     public void quitarPieza(TipoPieza modelo) throws MisExcepciones{
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -343,7 +417,13 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             Conexion.close(conn);
         }
     }
-
+    
+    /**
+     * Obtiene todos los registros que esten habilitados con su informacion(id tipo de pieza, nombre, cantidad existente).
+     * @param descendente orden
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<TipoPieza> listar(boolean descendente) throws MisExcepciones{
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -374,6 +454,11 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         return piezas;
     }
 
+    /**
+     * Obtiene el registro de todos los muebles que esten habilitados,
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public List<TipoPieza> listar() throws MisExcepciones{
         Connection conn = null;

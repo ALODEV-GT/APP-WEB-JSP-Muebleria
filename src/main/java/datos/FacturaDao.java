@@ -12,6 +12,7 @@ import java.util.List;
 
 public class FacturaDao implements Sentencias<Factura> {
 
+    //Consultas
     private static final String SQL_INSERT = "INSERT INTO factura(nit_cliente,fecha,vendedor) VALUES(?,?,?)";
     private static final String SQL_SELECCIONAR_ULTIMO = "SELECT num_factura FROM factura ORDER BY num_factura DESC LIMIT 1";
     private static final String SQL_ENCONTRAR_BY_NUM_FACTURA = "SELECT * FROM factura WHERE num_factura=?";
@@ -21,6 +22,14 @@ public class FacturaDao implements Sentencias<Factura> {
     private static final String SQL_AGREGAR_TOTAL = "UPDATE factura SET total=? WHERE num_factura = ?";
     private static final String SQL_SELECT_BY_NIT_CLIENTES_AND_FECHAS = "SELECT f.num_factura, c.nombre, f.nit_cliente, f.fecha, f.vendedor, f.total FROM factura f JOIN cliente c ON(f.nit_cliente=c.nit) WHERE f.fecha BETWEEN ? AND ? AND f.nit_cliente=? ORDER BY f.fecha DESC";
 
+    /**
+     * Obtiene los registros de facturas en un intervalo de fechas.
+     * @param fechaInicial
+     * @param fechaFinal
+     * @param nitCliente
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<Factura> listarByIntervaloFechas(String fechaInicial, String fechaFinal, String nitCliente) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -57,6 +66,12 @@ public class FacturaDao implements Sentencias<Factura> {
         return facturas;
     }
 
+    /**
+     * Obtiene el detalle(nombreCliente, nit, fecha, vendedor, total) de las compras registradas en una factura.
+     * @param numFactura
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<Factura> listarByNumFactura(int numFactura) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -90,6 +105,12 @@ public class FacturaDao implements Sentencias<Factura> {
         return facturas;
     }
 
+    /**
+     * Obtiene el detalle(numFactura, nombreCliente, nit, fecha, vendedor, total) de las compras de un cliente.
+     * @param nitCliente nit del cliente.
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<Factura> listarByNitCliente(String nitCliente) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -124,6 +145,12 @@ public class FacturaDao implements Sentencias<Factura> {
         return facturas;
     }
 
+    /**
+     * Agrega el total de las compras.
+     * @param total
+     * @param numFactura
+     * @throws MisExcepciones 
+     */
     public void agregarTotal(double total, int numFactura) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -143,6 +170,11 @@ public class FacturaDao implements Sentencias<Factura> {
         }
     }
 
+    /**
+     * Obtiene el numero de factura de la ultima factura registrada.
+     * @return
+     * @throws MisExcepciones 
+     */
     public int obtenerNumFactura() throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -173,6 +205,12 @@ public class FacturaDao implements Sentencias<Factura> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Obtiene el registro de una factura almacenandola en un modelo.
+     * @param numFactura
+     * @return
+     * @throws MisExcepciones 
+     */
     public Factura encontrar(int numFactura) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -207,6 +245,11 @@ public class FacturaDao implements Sentencias<Factura> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Obtiene la informacion (numFacutar, nombreClient, nit, fecha, vendedor, total) de todas las facturas.
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public List<Factura> listar() throws MisExcepciones {
         Connection conn = null;
@@ -241,6 +284,12 @@ public class FacturaDao implements Sentencias<Factura> {
         return facturas;
     }
 
+    /**
+     * Agrega un nuevo registro de una factura con los valores especificados en el modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int insertar(Factura modelo) throws MisExcepciones {
         Connection conn = null;

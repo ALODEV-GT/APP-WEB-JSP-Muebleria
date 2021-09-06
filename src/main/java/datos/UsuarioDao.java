@@ -11,6 +11,7 @@ import java.util.List;
 
 public class UsuarioDao implements Sentencias<Usuario> {
 
+    //Consultas
     private static final String SQL_SELECT_BY_NU = "SELECT u.passw, a.nombre FROM usuario u JOIN area a ON(u.id_area = a.id_area) WHERE u.nombre_usuario=?";
     private static final String SQL_INSERT = "INSERT INTO usuario VALUES(?,?,?,0)";
     private static final String SQL_SELECT_EXISTE_USUARIO = "SELECT * FROM usuario WHERE nombre_usuario=?";
@@ -20,6 +21,12 @@ public class UsuarioDao implements Sentencias<Usuario> {
     private static final String SQL_DESHABILITAR = "UPDATE usuario SET deshabilitado=1 WHERE nombre_usuario=?";
     private static final String SQL_ESTA_HABILITADO = "SELECT deshabilitado FROM usuario WHERE nombre_usuario=?";
 
+    /**
+     * Verifica si un usuario esta deshabilitado.
+     * @param nombreUsuario
+     * @return
+     * @throws MisExcepciones 
+     */
     public boolean estaDeshabilitado(String nombreUsuario) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -48,8 +55,12 @@ public class UsuarioDao implements Sentencias<Usuario> {
         return deshabilitado;
     }
 
-
-
+    /**
+     * Actualiza el atributo habilitado, especificando que se deshabilito.
+     * @param nombreUsuario
+     * @return
+     * @throws MisExcepciones 
+     */
     public int deshabilitar(String nombreUsuario) throws MisExcepciones {
         int numModificados = 0;
         Connection conn = null;
@@ -69,6 +80,12 @@ public class UsuarioDao implements Sentencias<Usuario> {
         return numModificados;
     }
     
+    /**
+     * Verifica la existencia de un area.
+     * @param idArea
+     * @return
+     * @throws MisExcepciones 
+     */
     public boolean existe(int idArea) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -94,6 +111,12 @@ public class UsuarioDao implements Sentencias<Usuario> {
         return existe;
     }
 
+    /**
+     * Verefica la existencia de un usuario.
+     * @param nombreUsuario
+     * @return
+     * @throws MisExcepciones 
+     */
     public boolean existe(String nombreUsuario) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -119,6 +142,12 @@ public class UsuarioDao implements Sentencias<Usuario> {
         return existe;
     }
 
+    /**
+     * Obtiene un registro almacenandolo en un modelo.
+     * @param usuario
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public Usuario encontrar(Usuario usuario) throws MisExcepciones {
         Connection conn = null;
@@ -148,6 +177,12 @@ public class UsuarioDao implements Sentencias<Usuario> {
         return usuario;
     }
 
+    /**
+     * Agrega un nuevo registro con los valores especificados en el modelo.
+     * @param usuario
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int insertar(Usuario usuario) throws MisExcepciones {
         Connection conn = null;
@@ -185,6 +220,13 @@ public class UsuarioDao implements Sentencias<Usuario> {
         return 0;
     }
 
+    /**
+     * Actualiza el area de un usuario.
+     * @param idArea
+     * @param usuario
+     * @return
+     * @throws MisExcepciones 
+     */
     public int actualizar(int idArea, String usuario) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -207,6 +249,11 @@ public class UsuarioDao implements Sentencias<Usuario> {
         return numModificados;
     }
 
+    /**
+     * Obtiene todos los registros de los usuarios que estan habilitados.
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public List<Usuario> listar() throws MisExcepciones {
         Connection conn = null;

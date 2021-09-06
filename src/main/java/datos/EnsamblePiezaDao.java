@@ -11,12 +11,21 @@ import java.util.List;
 
 public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
 
+    //Consultas
     private static final String SQL_INSERT = "INSERT INTO requerimiento(tipo_mueble,id_tipo_pieza,cantidad_necesaria) VALUES(?,?,?)";
     private static final String SQL_SELEC_BY_TIPO_MUEBLE = "SELECT * FROM requerimiento WHERE tipo_mueble = ?";
     private static final String SQL_LISTAR_SEGUN_TIPO_MUEBLE = "SELECT tp.nombre, r.cantidad_necesaria FROM requerimiento r JOIN tipo_pieza tp ON(r.id_tipo_pieza=tp.id_tipo_pieza) WHERE r.tipo_mueble=?";
     private static final String SQL_BUSCAR_REQUERIMIENTO = "SELECT r.tipo_mueble, r.cantidad_necesaria, tp.nombre FROM requerimiento r JOIN tipo_pieza tp ON(r.id_tipo_pieza=tp.id_tipo_pieza) WHERE r.tipo_mueble=? AND tp.nombre=?";
     private static final String SQL_SOBREESCRIBIR_REQUERIMIENTO = "UPDATE requerimiento r JOIN tipo_pieza tp SET r.cantidad_necesaria=? WHERE r.tipo_mueble=? AND tp.nombre=?";
 
+    /**
+     * Sobreescribe la cantidad necesaria de una pieza para ensamblar un mueble.
+     * @param nuevaCantidad
+     * @param mueble
+     * @param pieza
+     * @return
+     * @throws MisExcepciones 
+     */
     public int sobrescribirCantidadRequerimiento(int nuevaCantidad, String mueble, String pieza) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -38,7 +47,14 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
         }
         return numModificados;
     }
-
+    
+    /**
+     * Verifica si cierta pieza ya fue asignada a un mueble.
+     * @param mueble
+     * @param pieza
+     * @return
+     * @throws MisExcepciones 
+     */
     public boolean existe(String mueble, String pieza) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -71,6 +87,12 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Obtiene los requerimientos necesarios para ensamblar un mueble.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public List<EnsamblePieza> listar(EnsamblePieza modelo) throws MisExcepciones {
         Connection conn = null;
@@ -104,6 +126,12 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
         return requerimientos;
     }
 
+    /**
+     * Obtiene el nombre de las piezas necesarias y las cantidads necesarias para ensamblar un mueble. 
+     * @param tipoMueble
+     * @return
+     * @throws MisExcepciones 
+     */
     public List<EnsamblePieza> listarSegunTipoMueble(String tipoMueble) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -134,6 +162,12 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
         return requerimientos;
     }
 
+    /**
+     * Agrega un nuevo registro del requerimiento de un mueble con los valores especificados en el modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int insertar(EnsamblePieza modelo) throws MisExcepciones {
         Connection conn = null;

@@ -11,12 +11,18 @@ import java.util.List;
 
 public class MuebleDao implements Sentencias<Mueble> {
 
+    //Consultas
     private static final String SQL_INSERT = "INSERT INTO mueble(tipo_mueble, precio) VALUES(?,?)";
     private static final String SQL_SELECT_BY_NOMBRE = "SELECT * FROM mueble WHERE tipo_mueble=?";
     private static final String SQL_SELECT = "SELECT * FROM mueble";
     private static final String SQL_UPDATE_PRECIO = "UPDATE mueble SET precio=? WHERE tipo_mueble=?";
     
-
+    /**
+     * Obtiene un registro de un mueble almacenandolo en un modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public Mueble encontrar(Mueble modelo) throws MisExcepciones {
         Connection conn = null;
@@ -44,6 +50,12 @@ public class MuebleDao implements Sentencias<Mueble> {
         return modelo;
     }
 
+    /**
+     * Verifica la existencia de un mueble.
+     * @param nombre
+     * @return
+     * @throws MisExcepciones 
+     */
     public boolean existe(String nombre) throws MisExcepciones {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -75,6 +87,12 @@ public class MuebleDao implements Sentencias<Mueble> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Agrega un registro con los valores especificados en el modelo.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int insertar(Mueble modelo) throws MisExcepciones {
         Connection conn = null;
@@ -103,6 +121,12 @@ public class MuebleDao implements Sentencias<Mueble> {
         return 0;
     }
 
+    /**
+     * Actualiza el precio de un registro.
+     * @param modelo
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public int actualizar(Mueble modelo) throws MisExcepciones {
         Connection conn = null;
@@ -125,6 +149,11 @@ public class MuebleDao implements Sentencias<Mueble> {
         return numModificados;
     }
 
+    /**
+     * Obtiene todos los registros.
+     * @return
+     * @throws MisExcepciones 
+     */
     @Override
     public List<Mueble> listar() throws MisExcepciones{
          Connection conn = null;

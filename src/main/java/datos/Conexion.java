@@ -10,12 +10,17 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 public class Conexion {
 
+    //Credenciales para conectar a la base de datos.
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/MI_MUEBLERIA?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
     private static final String JDBC_USER = "brayan";
     private static final String JDBC_PASSWORD = "contra123";
 
     private static BasicDataSource dataSource;
 
+    /**
+     * Obtiene una conexion hacia la base de datos.
+     * @return 
+     */
     public static DataSource getDataSource() {
         if (dataSource == null) {
 
@@ -37,6 +42,11 @@ public class Conexion {
         }
     }
 
+    /**
+     * Cierra el recurso ResultSet.
+     * @param rs
+     * @throws MisExcepciones 
+     */
     public static void close(ResultSet rs) throws MisExcepciones {
         try {
             rs.close();
@@ -45,6 +55,11 @@ public class Conexion {
         }
     }
 
+    /**
+     * Cierra el recurso PreparedStatement. 
+     * @param stmt
+     * @throws MisExcepciones 
+     */
     public static void close(PreparedStatement stmt) throws MisExcepciones {
         try {
             stmt.close();
@@ -53,6 +68,11 @@ public class Conexion {
         }
     }
 
+    /**
+     * Cierre la conexion hacia la base de datos.
+     * @param conn
+     * @throws MisExcepciones 
+     */
     public static void close(Connection conn) throws MisExcepciones {
         try {
             conn.close();
