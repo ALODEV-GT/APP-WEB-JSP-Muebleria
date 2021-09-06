@@ -314,6 +314,7 @@ public class ControladorVentas {
         request.setAttribute("clienteF", infoCliente);
         request.setAttribute("detalles", detalles);
         request.setAttribute("total", df.format(total));
+        request.setAttribute("numFactura", numFactura);
         request.getRequestDispatcher("/WEB-INF/paginas/venta/factura.jsp").forward(request, response);
     }
     

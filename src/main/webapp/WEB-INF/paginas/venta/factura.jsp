@@ -4,7 +4,7 @@
 
 <div class="container my-5 col-md-3" style="background-color: #EBEBEB; color: #BC6C25; font-family: fantasy; border: 1px solid #fde5cf;">
     <br>
-    <h2 style="text-align: center;">Factura</h2>
+    <h2 style="text-align: center;">Factura #${numFactura}</h2>
     <form>
         <div>
             <label><b>Nit</b></label>
