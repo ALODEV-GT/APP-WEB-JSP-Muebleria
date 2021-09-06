@@ -49,7 +49,6 @@ public class CargarDatos {
                 agregarError("Linea " + (i + 1) + ": " + ex.getMessage());
             }
         }
-        System.out.println(errores);
     }
 
     private String quitarComillasYEspacios(String linea) {
