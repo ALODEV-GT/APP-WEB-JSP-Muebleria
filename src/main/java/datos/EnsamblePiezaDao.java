@@ -43,7 +43,6 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return numModificados;
     }
@@ -77,7 +76,6 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return existe;
     }
@@ -121,7 +119,6 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return requerimientos;
     }
@@ -157,7 +154,6 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return requerimientos;
     }
@@ -186,7 +182,6 @@ public class EnsamblePiezaDao implements Sentencias<EnsamblePieza> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return numModificados;
     }

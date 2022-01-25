@@ -1,83 +1,58 @@
 package datos;
 
-import dominio.cargarDatos.MisExcepciones;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.sql.DataSource;
-import org.apache.commons.dbcp2.BasicDataSource;
 
 public class Conexion {
 
-    //Credenciales para conectar a la base de datos.
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/MI_MUEBLERIA?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
-    private static final String JDBC_USER = "brayan";
-    private static final String JDBC_PASSWORD = "contra123";
+    
+    
+    private static Connection conn = null;
 
-    private static BasicDataSource dataSource;
+    private Conexion() {
+        String url = "jdbc:mysql://localhost:3306/MI_MUEBLERIA?useSSL=false&useTimezone=true&serverTimezone=UTC";
+        String driver = "com.mysql.cj.jdbc.Driver";
+        String usuario = "brayan";
+        String password = "contra123";
 
-    /**
-     * Obtiene una conexion hacia la base de datos.
-     * @return 
-     */
-    public static DataSource getDataSource() {
-        if (dataSource == null) {
-
-            dataSource = new BasicDataSource();
-            dataSource.setUrl(JDBC_URL);
-            dataSource.setUsername(JDBC_USER);
-            dataSource.setPassword(JDBC_PASSWORD);
-            dataSource.setInitialSize(50);
-        }
-
-        return dataSource;
-    }
-
-    public static Connection getConnection() throws MisExcepciones {
         try {
-            return getDataSource().getConnection();
-        } catch (SQLException ex) {
-            throw new MisExcepciones("Algo salio mal con la base de datos, vuelve a intentarlo");
+            Class.forName(driver);
+            conn = DriverManager.getConnection(url, usuario, password);
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace(System.out);
         }
     }
 
-    /**
-     * Cierra el recurso ResultSet.
-     * @param rs
-     * @throws MisExcepciones 
-     */
-    public static void close(ResultSet rs) throws MisExcepciones {
+    public static Connection getConnection() {
+        if (conn == null) {
+            new Conexion();
+        }
+
+        return conn;
+    }
+
+    public static void close(ResultSet rs) {
         try {
-            rs.close();
+            if (rs != null) {
+                rs.close();
+            }
         } catch (SQLException ex) {
-            throw new MisExcepciones("Algo salio mal al cerrar un recurso");
+            System.err.println("Error al cerrar el Result set");
+            ex.printStackTrace(System.out);
         }
     }
 
-    /**
-     * Cierra el recurso PreparedStatement. 
-     * @param stmt
-     * @throws MisExcepciones 
-     */
-    public static void close(PreparedStatement stmt) throws MisExcepciones {
+    public static void close(PreparedStatement stmt) {
         try {
-            stmt.close();
+            if (stmt != null) {
+                stmt.close();
+            }
         } catch (SQLException ex) {
-            throw new MisExcepciones("Algo salio mal al cerrar un recurso");
-        }
-    }
-
-    /**
-     * Cierre la conexion hacia la base de datos.
-     * @param conn
-     * @throws MisExcepciones 
-     */
-    public static void close(Connection conn) throws MisExcepciones {
-        try {
-            conn.close();
-        } catch (SQLException ex) {
-            throw new MisExcepciones("Algo salio mal al cerrar la conexion");
+            System.err.println("Error al cerrar el PreparedStatement");
+            ex.printStackTrace(System.out);
         }
     }
 

@@ -1,36 +1,36 @@
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/clases/Detalle.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/MuebleDao.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/clases/ConsultasAdministracion.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/web/ventas/ControladorVentas.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/ArmadoDao.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/TipoPiezaDao.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/ConsultasAdministracionDao.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/Sentencias.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/clases/Mueble.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/DetalleDao.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/web/administracion/ControladorAdministracion.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/EnsamblePiezaDao.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/clases/Usuario.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/DevolucionDao.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/AreaDao.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/clases/Armado.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/FacturaDao.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/ClienteDao.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/cargarDatos/MisExcepciones.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/clases/EnsamblePieza.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/clases/Factura.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/clases/Pieza.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/clases/EnsamblarMueble.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/clases/TipoPieza.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/web/controladores/ServletControl.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/cargarDatos/CargarDatos.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/EnsambleMuebleDao.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/clases/Devolucion.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/cargarDatos/Funciones.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/Conexion.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/web/controladores/ServletExportar.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/PiezaDao.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/datos/UsuarioDao.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/dominio/clases/Cliente.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/web/controladores/ServletCargaArchivo.java
-/home/midik/Escritorio/Proyecto 1/MiMuebleria/src/main/java/web/fabrica/ControladorFabrica.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/web/controladores/ServletCargaArchivo.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/clases/EnsamblarMueble.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/AreaDao.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/clases/Devolucion.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/clases/Detalle.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/cargarDatos/CargarDatos.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/ArmadoDao.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/Sentencias.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/web/fabrica/ControladorFabrica.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/web/controladores/ServletExportar.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/cargarDatos/Funciones.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/cargarDatos/MisExcepciones.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/clases/EnsamblePieza.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/clases/Usuario.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/EnsambleMuebleDao.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/web/ventas/ControladorVentas.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/clases/TipoPieza.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/EnsamblePiezaDao.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/web/controladores/ServletControl.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/MuebleDao.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/UsuarioDao.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/FacturaDao.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/ClienteDao.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/DevolucionDao.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/clases/Factura.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/clases/ConsultasAdministracion.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/clases/Pieza.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/clases/Armado.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/clases/Mueble.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/DetalleDao.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/web/administracion/ControladorAdministracion.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/Conexion.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/dominio/clases/Cliente.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/TipoPiezaDao.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/PiezaDao.java
+/home/midik/Escritorio/RevisandoRepos/Proyecto1-IPC2/src/main/java/datos/ConsultasAdministracionDao.java

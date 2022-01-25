@@ -41,7 +41,6 @@ public class AreaDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return areas;
     }
@@ -75,7 +74,6 @@ public class AreaDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
 
         return idArea;
@@ -110,7 +108,6 @@ public class AreaDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
 
         return nombreArea;

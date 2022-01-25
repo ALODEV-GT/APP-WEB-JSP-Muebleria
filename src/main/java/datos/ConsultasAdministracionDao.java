@@ -61,7 +61,6 @@ public class ConsultasAdministracionDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return registros;
     }
@@ -104,7 +103,6 @@ public class ConsultasAdministracionDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return registros;
     }
@@ -145,7 +143,6 @@ public class ConsultasAdministracionDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return registros;
     }
@@ -179,7 +176,6 @@ public class ConsultasAdministracionDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return nombreUsuario;
     }
@@ -220,7 +216,6 @@ public class ConsultasAdministracionDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return registros;
     }
@@ -254,7 +249,6 @@ public class ConsultasAdministracionDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return nombreUsuario;
     }
@@ -299,7 +293,6 @@ public class ConsultasAdministracionDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return registros;
     }
@@ -333,7 +326,6 @@ public class ConsultasAdministracionDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return nombreMueble;
     }
@@ -375,7 +367,6 @@ public class ConsultasAdministracionDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return registros;
     }
@@ -410,7 +401,6 @@ public class ConsultasAdministracionDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return nombreMueble;
     }
@@ -452,7 +442,6 @@ public class ConsultasAdministracionDao {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return registros;
     }

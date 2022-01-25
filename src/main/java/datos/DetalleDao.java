@@ -51,7 +51,6 @@ public class DetalleDao implements Sentencias<Detalle> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return detalles;
     }
@@ -90,7 +89,6 @@ public class DetalleDao implements Sentencias<Detalle> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return detalles;
     }
@@ -128,7 +126,6 @@ public class DetalleDao implements Sentencias<Detalle> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return detalles;
     }
@@ -160,7 +157,6 @@ public class DetalleDao implements Sentencias<Detalle> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
 
         return existe;
@@ -206,7 +202,6 @@ public class DetalleDao implements Sentencias<Detalle> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return numModificados;
     }

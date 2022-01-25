@@ -43,7 +43,6 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
     }
 
@@ -82,7 +81,6 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
 
         return ensamblarMueble;
@@ -113,7 +111,6 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
 
         return precio;
@@ -139,7 +136,6 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
     }
 
@@ -170,7 +166,6 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return existe;
     }
@@ -205,7 +200,6 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return ensamblesMueble;
     }
@@ -239,7 +233,6 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
 
         return idEnsamble;
@@ -270,7 +263,6 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return numModificados;
     }
@@ -320,7 +312,6 @@ public class EnsambleMuebleDao implements Sentencias<EnsamblarMueble> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return ensamblesMueble;
     }

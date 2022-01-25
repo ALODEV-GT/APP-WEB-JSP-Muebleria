@@ -58,7 +58,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
 
         return habilitado;
@@ -92,7 +92,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
         return piezas;
     }
@@ -117,7 +117,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
              throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
     }
 
@@ -153,7 +153,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
 
         return modelo;
@@ -187,7 +187,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
 
         return existe;
@@ -224,7 +224,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
 
         return modelo;
@@ -257,7 +257,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
              throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
         return numModificados;
     }
@@ -287,7 +287,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
              throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
         return numModificados;
     }
@@ -312,7 +312,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
              throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
         return numModificados;
     }
@@ -341,7 +341,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
              throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
         return numModificados;
     }
@@ -367,7 +367,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
              throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
         return numModificados;
     }
@@ -391,7 +391,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
              throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
     }
 
@@ -414,7 +414,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
     }
     
@@ -449,7 +449,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
         return piezas;
     }
@@ -484,7 +484,7 @@ public class TipoPiezaDao implements Sentencias<TipoPieza> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
         return piezas;
     }

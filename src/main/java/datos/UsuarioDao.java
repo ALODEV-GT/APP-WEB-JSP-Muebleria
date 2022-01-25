@@ -49,7 +49,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
 
         return deshabilitado;
@@ -75,7 +75,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
         return numModificados;
     }
@@ -105,7 +105,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
 
         return existe;
@@ -136,7 +136,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
 
         return existe;
@@ -171,7 +171,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
 
         return usuario;
@@ -200,7 +200,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
         return numModificados;
     }
@@ -244,7 +244,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
         return numModificados;
     }
@@ -277,7 +277,7 @@ public class UsuarioDao implements Sentencias<Usuario> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
+            
         }
         return usuarios;
     }

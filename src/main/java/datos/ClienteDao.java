@@ -39,7 +39,6 @@ public class ClienteDao implements Sentencias<Cliente> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
 
         return existe;
@@ -77,7 +76,6 @@ public class ClienteDao implements Sentencias<Cliente> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return modelo;
     }
@@ -113,7 +111,6 @@ public class ClienteDao implements Sentencias<Cliente> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return numModificados;
     }

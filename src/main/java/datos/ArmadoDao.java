@@ -62,7 +62,6 @@ public class ArmadoDao implements Sentencias<Armado> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return armados;
     }
@@ -90,7 +89,6 @@ public class ArmadoDao implements Sentencias<Armado> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return numModificados;
     }

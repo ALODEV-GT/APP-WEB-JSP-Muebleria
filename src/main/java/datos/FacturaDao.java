@@ -61,7 +61,6 @@ public class FacturaDao implements Sentencias<Factura> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return facturas;
     }
@@ -100,7 +99,6 @@ public class FacturaDao implements Sentencias<Factura> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return facturas;
     }
@@ -140,7 +138,6 @@ public class FacturaDao implements Sentencias<Factura> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return facturas;
     }
@@ -166,7 +163,6 @@ public class FacturaDao implements Sentencias<Factura> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
     }
 
@@ -194,7 +190,6 @@ public class FacturaDao implements Sentencias<Factura> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
 
         return numFactura;
@@ -234,7 +229,6 @@ public class FacturaDao implements Sentencias<Factura> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
 
         return factura;
@@ -279,7 +273,6 @@ public class FacturaDao implements Sentencias<Factura> {
         } finally {
             Conexion.close(rs);
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return facturas;
     }
@@ -308,7 +301,6 @@ public class FacturaDao implements Sentencias<Factura> {
             throw new MisExcepciones("Algo salio mal al ejecutar la declaracion hacia la base de datos");
         } finally {
             Conexion.close(stmt);
-            Conexion.close(conn);
         }
         return numModificados;
     }
