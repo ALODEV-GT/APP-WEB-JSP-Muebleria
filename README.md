@@ -16,6 +16,7 @@ Este area permite realizar consultas como las compras de un cliente, las devoluc
 
 ### Se uso:
 - JSP
+- Servlets
 - Patrones de diseno
 - Bootstrap
 
@@ -68,3 +69,7 @@ Este area permite realizar consultas como las compras de un cliente, las devoluc
         <img src="https://i.ibb.co/7v4vhty/ventas-3.png" alt="ventas-3" border="0">
     </kbd><br><br>
 </p>
+
+## Importante
+Cargar el archivo mapeoFisico.sql en mysql.
+Ejecutar
